@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Firebase
 
 class SignupController: UIViewController {
     //    MARK: - Properties
@@ -68,10 +69,16 @@ class SignupController: UIViewController {
         return UITextField().textField(withPlaceholder: "Password", isSecureText: true)
     }()
     
-    private let signupButton:  AuthButton = {
-        let button = AuthButton()
+    private let signupButton:  UIButton = {
+        let button = UIButton(type: .system)
         button.setTitle("Sign Up", for: .normal)
-        //        button.addTarget(self, action: #selector(handleSignup), for: .touchUpInside)
+        button.tintColor = .white
+        button.backgroundColor = .mainBlueTint
+        button.layer.cornerRadius = 5
+        button.heightAnchor.constraint(equalToConstant: 50).isActive = true
+        button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 20)
+
+        button.addTarget(self, action: #selector(handleSignup), for: .touchUpInside)
         return button
     }()
     
@@ -99,6 +106,36 @@ class SignupController: UIViewController {
     
     @objc func handleShowLogin(){
         navigationController?.popViewController(animated: true)
+    }
+    
+    @objc func handleSignup(){
+        if emailTextField.text != ""{
+            if passwordTextField.text  != ""{
+                if nameTextField.text != ""{
+                    let email = emailTextField.text!
+                    let password = passwordTextField.text!
+                    let fullname = nameTextField.text!
+                    let accountTypeSelectedIndex = accountTypeSegmentedControl.selectedSegmentIndex
+                    Auth.auth().createUser(withEmail: email, password: password) { (result, error) in
+                        if let error = error {
+                            print("Error from CreateUser: ",error)
+                            return
+                        }else{
+                            guard let uid = result?.user.uid else { return }
+                            let userdata = ["email": email, "fullname": fullname, "accountTypeIndex": accountTypeSelectedIndex] as [String : Any]
+                            
+                            Database.database().reference().child("users").child(uid).updateChildValues(userdata) { (error, reference) in
+                                if let error = error {
+                                    print("Database from Database: ",error)
+                                }else{
+                                    print("Succesfully registered User and saved in Database.")
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
     }
     
     //    MARK: - Helper Functions
