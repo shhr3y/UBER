@@ -10,24 +10,42 @@ import UIKit
 
 extension UIView {
     
-    func inputContainerView(image: UIImage, textField: UITextField) -> (UIView){
+    func inputContainerView(image: UIImage, textField: UITextField? = nil, segmentedControl: UISegmentedControl? = nil) -> (UIView){
         let view = UIView()
         
         let icon = UIImageView()
         icon.image = image
         icon.alpha = 0.87
         view.addSubview(icon)
-        icon.centerY(inView: view)
-        icon.anchor(left: view.leftAnchor, paddingLeft: 8, width: 24, height: 24)
         
-        view.addSubview(textField)
-        textField.centerY(inView: view)
-        textField.anchor(top: view.topAnchor, left: icon.rightAnchor, bottom: view.bottomAnchor, right: view.rightAnchor, paddingLeft: 8,  paddingRight: 8)
+        if let textField = textField {
+            icon.centerY(inView: view)
+            icon.anchor(left: view.leftAnchor, paddingLeft: 8, width: 24, height: 24)
+            view.addSubview(textField)
+            textField.centerY(inView: view)
+            textField.anchor(top: view.topAnchor, left: icon.rightAnchor, bottom: view.bottomAnchor, right: view.rightAnchor, paddingLeft: 8,  paddingRight: 8)
+            let separator = UIView()
+            separator.backgroundColor = .lightGray
+            view.addSubview(separator)
+            separator.anchor(left: view.leftAnchor, bottom: view.bottomAnchor, right: view.rightAnchor, height: 1)
+        }
         
-        let separator = UIView()
-        separator.backgroundColor = .lightGray
-        view.addSubview(separator)
-        separator.anchor(left: view.leftAnchor, bottom: view.bottomAnchor, right: view.rightAnchor, height: 1)
+        if let segmentedControl = segmentedControl {
+            icon.anchor(top: view.topAnchor, left: view.leftAnchor,paddingTop: 8, paddingLeft: 8, width: 24, height: 24)
+            
+            let label = UILabel()
+            label.text = "You are a Rider or Driver?"
+            label.font = UIFont.systemFont(ofSize: 16)
+            label.textColor = .lightGray
+            view.addSubview(label)
+            label.anchor(top: view.topAnchor, left: icon.rightAnchor, right: view.rightAnchor,paddingTop: 10, paddingLeft: 8, paddingRight: 8)
+            
+            
+            view.addSubview(segmentedControl)
+            segmentedControl.anchor(left: view.leftAnchor, right: view.rightAnchor, paddingLeft: 8, paddingRight: 8)
+            segmentedControl.centerY(inView: view)
+            segmentedControl.centerX(inView: view)
+        }
         
         return view
     }
@@ -68,12 +86,12 @@ extension UIView {
         }
     }
     
-    func centerX(inView view: UIView){
-        centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+    func centerX(inView view: UIView, constant: CGFloat = 0){
+        centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: constant).isActive = true
     }
     
-    func centerY(inView view: UIView){
-        centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
+    func centerY(inView view: UIView, constant: CGFloat = 0){
+        centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: constant).isActive = true
     }
 }
 

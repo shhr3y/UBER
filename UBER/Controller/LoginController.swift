@@ -40,16 +40,12 @@ class LoginController: UIViewController {
         return UITextField().textField(withPlaceholder: "Password", isSecureText: true)
     }()
     
-    private let loginButton:  UIButton = {
-           let button = UIButton()
-           button.setTitle("Log In", for: .normal)
-        button.backgroundColor = .mainBlueTint
-        button.layer.cornerRadius = 5
-        button.heightAnchor.constraint(equalToConstant: 50).isActive = true
-           button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 20)
-//           button.addTarget(self, action: #selector(handleLogin), for: .touchUpInside)
-           return button
-       }()
+    private let loginButton:  AuthButton = {
+        let button = AuthButton()
+        button.setTitle("Log In", for: .normal)
+//        button.addTarget(self, action: #selector(handleLogin), for: .touchUpInside)
+        return button
+    }()
     
     let dontHaveAccountButton: UIButton = {
         let button = UIButton(type: .system)
@@ -57,7 +53,7 @@ class LoginController: UIViewController {
         
         attributedTitle.append(NSAttributedString(string: "Sign Up", attributes: [NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: 16), NSAttributedString.Key.foregroundColor: UIColor.mainBlueTint]))
         
-//        button.addTarget(self, action: #selector(handleShowSignUp), for: .touchUpInside)
+                button.addTarget(self, action: #selector(handleShowSignUp), for: .touchUpInside)
         
         button.setAttributedTitle(attributedTitle, for: .normal)
         return button
@@ -67,6 +63,24 @@ class LoginController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        configureUI()
+        
+        
+    }
+    
+    override var preferredStatusBarStyle: UIStatusBarStyle{
+        return .lightContent
+    }
+    //    MARK: - Selectors
+    
+    @objc func handleShowSignUp(){
+        let controller = SignupController()
+        navigationController?.pushViewController(controller, animated: true)
+    }
+    
+    //    MARK: - Helper Functions
+    func configureUI(){
+        confiureNavigationBar()
         view.backgroundColor = UIColor(red: 25/255, green: 25/255, blue: 25/255, alpha: 1)
         
         view.addSubview(titleLabel)
@@ -88,8 +102,9 @@ class LoginController: UIViewController {
         dontHaveAccountButton.anchor(bottom: view.safeAreaLayoutGuide.bottomAnchor, height: 32)
     }
     
-    override var preferredStatusBarStyle: UIStatusBarStyle{
-        return .lightContent
+    func confiureNavigationBar(){
+        navigationController?.navigationBar.isHidden = true
+        navigationController?.navigationBar.barStyle = .black
     }
 }
 
