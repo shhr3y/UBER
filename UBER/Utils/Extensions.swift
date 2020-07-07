@@ -105,6 +105,7 @@ extension UITextField {
         tf.textColor = .white
         tf.keyboardAppearance = .dark
         tf.isSecureTextEntry = isSecureText
+        tf.autocapitalizationType = .none
         tf.attributedPlaceholder = NSAttributedString(string: placeholder, attributes: [NSAttributedString.Key.foregroundColor : UIColor.lightGray])
         return tf
     }

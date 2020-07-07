@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Firebase
 
 class LoginController: UIViewController {
     
@@ -48,7 +49,7 @@ class LoginController: UIViewController {
         button.layer.cornerRadius = 5
         button.heightAnchor.constraint(equalToConstant: 50).isActive = true
         button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 20)
-//        button.addTarget(self, action: #selector(handleLogin), for: .touchUpInside)
+        button.addTarget(self, action: #selector(handleLogin), for: .touchUpInside)
         return button
     }()
     
@@ -72,17 +73,30 @@ class LoginController: UIViewController {
         
         
     }
-    
-    override var preferredStatusBarStyle: UIStatusBarStyle{
-        return .lightContent
-    }
+
     //    MARK: - Selectors
     
     @objc func handleShowSignUp(){
         let controller = SignupController()
         navigationController?.pushViewController(controller, animated: true)
     }
-    
+
+    @objc func handleLogin(){
+        if emailTextField.text != "" && passwordTextField.text != "" {
+            let email = emailTextField.text!
+            let password = passwordTextField.text!
+            
+            Auth.auth().signIn(withEmail: email, password: password) { (result, error) in
+                if let error = error {
+                    print("Error on SignIn w Email: ",error)
+                    return
+                }else{
+                    print("Login Successful for Email: ", result?.user.email! as Any)
+                }
+            }
+            
+        }
+    }
     //    MARK: - Helper Functions
     func configureUI(){
         confiureNavigationBar()
