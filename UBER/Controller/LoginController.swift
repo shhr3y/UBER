@@ -88,10 +88,11 @@ class LoginController: UIViewController {
             
             Auth.auth().signIn(withEmail: email, password: password) { (result, error) in
                 if let error = error {
-                    print("Error on SignIn w Email: ",error)
+                    print("DEBUG: Error on SignIn with Email: ",error.localizedDescription)
                     return
                 }else{
-                    print("Login Successful for Email: ", result?.user.email! as Any)
+                    print("DEBUG: Login Successful for Email: ", result?.user.email! as Any)
+                    self.dismiss(animated: true, completion: nil)
                 }
             }
             

@@ -118,7 +118,7 @@ class SignupController: UIViewController {
                     let accountTypeSelectedIndex = accountTypeSegmentedControl.selectedSegmentIndex
                     Auth.auth().createUser(withEmail: email, password: password) { (result, error) in
                         if let error = error {
-                            print("Error from CreateUser: ",error)
+                            print("DEBUG: Error from CreateUser: ",error)
                             return
                         }else{
                             guard let uid = result?.user.uid else { return }
@@ -126,9 +126,10 @@ class SignupController: UIViewController {
                             
                             Database.database().reference().child("users").child(uid).updateChildValues(userdata) { (error, reference) in
                                 if let error = error {
-                                    print("Database from Database: ",error)
+                                    print("DEBUG: Database from Database: ",error.localizedDescription)
                                 }else{
-                                    print("Succesfully registered User and saved in Database.")
+                                    print("DEBUG: Succesfully registered User and saved in Database.")
+                                    self.dismiss(animated: true, completion: nil)
                                 }
                             }
                         }
