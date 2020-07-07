@@ -10,6 +10,13 @@ import UIKit
 
 extension UIView {
     
+    func addShadow(){
+        layer.shadowColor = UIColor.black.cgColor
+        layer.shadowOpacity = 0.55
+        layer.shadowOffset = CGSize(width: 0.5, height: 0.5)
+        layer.masksToBounds = false
+    }
+    
     func inputContainerView(image: UIImage, textField: UITextField? = nil, segmentedControl: UISegmentedControl? = nil) -> (UIView){
         let view = UIView()
         
@@ -87,10 +94,12 @@ extension UIView {
     }
     
     func centerX(inView view: UIView, constant: CGFloat = 0){
+        translatesAutoresizingMaskIntoConstraints = false
         centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: constant).isActive = true
     }
     
     func centerY(inView view: UIView, leftAnchor: NSLayoutXAxisAnchor? = nil, leftPadding: CGFloat = 0, constant: CGFloat = 0){
+        translatesAutoresizingMaskIntoConstraints = false
         centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: constant).isActive = true
         
         if let left = leftAnchor {

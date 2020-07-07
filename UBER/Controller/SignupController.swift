@@ -8,9 +8,12 @@
 
 import UIKit
 import Firebase
+import GeoFire
 
 class SignupController: UIViewController {
     //    MARK: - Properties
+    
+    private var location = LocationHandler.shared.locationManager.location
     
     private let titleLabel: UILabel = {
         let label = UILabel()
@@ -124,16 +127,14 @@ class SignupController: UIViewController {
                             guard let uid = result?.user.uid else { return }
                             let userdata = ["email": email, "fullname": fullname, "accountTypeIndex": accountTypeSelectedIndex] as [String : Any]
                             
-                            Database.database().reference().child("users").child(uid).updateChildValues(userdata) { (error, reference) in
-                                if let error = error {
-                                    print("DEBUG: Database from Database: ",error.localizedDescription)
-                                }else{
-                                    print("DEBUG: Succesfully registered User and saved in Database.")
-                                    guard let controller = UIApplication.shared.keyWindow?.rootViewController as? HomeController else { return }
-                                    controller.configureUI()
-                                    self.dismiss(animated: true, completion: nil)
+                            if accountTypeSelectedIndex == 1 {
+                                let geofire = GeoFire(firebaseRef: DB_REF_DRIVER_LOCATIONS)
+                                guard let location = self.location else { return }
+                                geofire.setLocation(location, forKey: uid) { (error) in
+                                    self.uploadUserDataAndShowHomeController(uid: uid, userdata: userdata)
                                 }
                             }
+                            self.uploadUserDataAndShowHomeController(uid: uid, userdata: userdata)
                         }
                     }
                 }
@@ -142,6 +143,19 @@ class SignupController: UIViewController {
     }
     
     //    MARK: - Helper Functions
+    
+    func uploadUserDataAndShowHomeController(uid: String, userdata: [String: Any]){
+        DB_REF_USERS.child(uid).updateChildValues(userdata) { (error, reference) in
+            if let error = error {
+                print("DEBUG: Database from Database: ",error.localizedDescription)
+            }else{
+                print("DEBUG: Succesfully registered User and saved in Database.")
+                guard let controller = UIApplication.shared.keyWindow?.rootViewController as? HomeController else { return }
+                controller.checkIfUserIsLoggedIn()
+                self.dismiss(animated: true, completion: nil)
+            }
+        }
+    }
     
     func configureUI(){
         view.backgroundColor = UIColor(red: 25/255, green: 25/255, blue: 25/255, alpha: 1)

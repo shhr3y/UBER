@@ -9,7 +9,7 @@
 import UIKit
 
 protocol LocationInputActivationViewDelegate: class {
-    func presentLocationInputView()
+    func presentLocationInputActivationView()
 }
 
 class LocationInputActivationView: UIView{
@@ -38,10 +38,8 @@ class LocationInputActivationView: UIView{
         super.init(frame: frame)
         
         backgroundColor = .white
-        layer.shadowColor = UIColor.black.cgColor
-        layer.shadowOpacity = 0.55
-        layer.shadowOffset = CGSize(width: 0.5, height: 0.5)
-        layer.masksToBounds = false
+        addShadow()
+        
         
         addSubview(indicatorView)
         indicatorView.centerY(inView: self, leftAnchor: leftAnchor, leftPadding: 15)
@@ -62,7 +60,7 @@ class LocationInputActivationView: UIView{
     
     //    MARK: - Selectors
     @objc func presentLocationInputView(){
-        delegate?.presentLocationInputView()
+        delegate?.presentLocationInputActivationView()
     }
     
     //    MARK: - Helper Functions
