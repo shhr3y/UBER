@@ -57,8 +57,8 @@ class SignupController: UIViewController {
         
         return segmentedControl
     }()
-
- 
+    
+    
     private let emailTextField: UITextField = {
         return UITextField().textField(withPlaceholder: "Email", isSecureText: false)
     }()
@@ -77,7 +77,7 @@ class SignupController: UIViewController {
         button.layer.cornerRadius = 5
         button.heightAnchor.constraint(equalToConstant: 50).isActive = true
         button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 20)
-
+        
         button.addTarget(self, action: #selector(handleSignup), for: .touchUpInside)
         return button
     }()
@@ -129,6 +129,8 @@ class SignupController: UIViewController {
                                     print("DEBUG: Database from Database: ",error.localizedDescription)
                                 }else{
                                     print("DEBUG: Succesfully registered User and saved in Database.")
+                                    guard let controller = UIApplication.shared.keyWindow?.rootViewController as? HomeController else { return }
+                                    controller.configureUI()
                                     self.dismiss(animated: true, completion: nil)
                                 }
                             }
@@ -164,12 +166,12 @@ class SignupController: UIViewController {
     }
     
     func initializeHideKeyboard(){
-    let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(dismissMyKeyboard))
-    view.addGestureRecognizer(tap)
+        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(dismissMyKeyboard))
+        view.addGestureRecognizer(tap)
     }
     @objc func dismissMyKeyboard(){
-    //endEditing causes the view (or one of its embedded text fields) to resign the first responder status.
-    //In short- Dismiss the active keyboard.
-    view.endEditing(true)
+        //endEditing causes the view (or one of its embedded text fields) to resign the first responder status.
+        //In short- Dismiss the active keyboard.
+        view.endEditing(true)
     }
 }

@@ -59,7 +59,7 @@ class LoginController: UIViewController {
         
         attributedTitle.append(NSAttributedString(string: "Sign Up", attributes: [NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: 16), NSAttributedString.Key.foregroundColor: UIColor.mainBlueTint]))
         
-                button.addTarget(self, action: #selector(handleShowSignUp), for: .touchUpInside)
+        button.addTarget(self, action: #selector(handleShowSignUp), for: .touchUpInside)
         
         button.setAttributedTitle(attributedTitle, for: .normal)
         return button
@@ -73,14 +73,14 @@ class LoginController: UIViewController {
         
         
     }
-
+    
     //    MARK: - Selectors
     
     @objc func handleShowSignUp(){
         let controller = SignupController()
         navigationController?.pushViewController(controller, animated: true)
     }
-
+    
     @objc func handleLogin(){
         if emailTextField.text != "" && passwordTextField.text != "" {
             let email = emailTextField.text!
@@ -92,6 +92,8 @@ class LoginController: UIViewController {
                     return
                 }else{
                     print("DEBUG: Login Successful for Email: ", result?.user.email! as Any)
+                    guard let controller = UIApplication.shared.keyWindow?.rootViewController as? HomeController else { return }
+                    controller.configureUI()
                     self.dismiss(animated: true, completion: nil)
                 }
             }
