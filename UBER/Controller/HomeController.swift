@@ -44,6 +44,19 @@ class HomeController: UIViewController {
     private var user: User? {
         didSet{
             locationInputView.user = user
+            if user?.accountType == .passenger {
+                fetchNearbyDrivers()
+                configureInputActivationView()
+            }else{
+                print("DEBUG: User is Driver.")
+                observeTrips()
+            }
+        }
+    }
+    
+    private var trip: Trip? {
+        didSet{
+            
         }
     }
     
@@ -63,9 +76,7 @@ class HomeController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         checkIfUserIsLoggedIn()
-//        signOut()
         enableLocationServices()
-
     }
     
     //    MARK: - Selectors
@@ -83,7 +94,7 @@ class HomeController: UIViewController {
             mapView.showAnnotations(mapView.annotations, animated: true)
         case .showMenu:
             print("DEBUG: Handle showMenu")
-//            signOut()
+            signOut()
             break
         }
     }
@@ -95,7 +106,6 @@ class HomeController: UIViewController {
         configureMapView()
         configureUI()
         fetchUserData()
-        fetchNearbyDrivers()
     }
     
     func configureUI(){
@@ -106,16 +116,18 @@ class HomeController: UIViewController {
         actionButton.anchor(top: view.safeAreaLayoutGuide.topAnchor, left: view.leftAnchor, paddingTop: 0, paddingLeft: 25.5)
         actionButton.setDimensions(height: 30, width: 30)
         
+        configureTableView()
+    }
+    
+    func configureInputActivationView(){
         view.addSubview(inputActivationView)
         inputActivationView.anchor(top: actionButton.bottomAnchor, paddingTop: 27, width: view.frame.width - 64, height: 50)
         inputActivationView.centerX(inView: view)
         inputActivationView.alpha = 0
         inputActivationView.delegate = self
-        UIView.animate(withDuration: 1.5) {
+        UIView.animate(withDuration: 1) {
             self.inputActivationView.alpha = 1
         }
-        
-        configureTableView()
     }
     
     func configureMapView(){
@@ -184,6 +196,7 @@ class HomeController: UIViewController {
     }
     
     func configureRideActionView(){
+        rideActionView.delegate = self
         view.addSubview(rideActionView)
         rideActionView.frame = CGRect(x: 0, y: view.frame.height, width: view.frame.width, height: rideActionViewHeight)
     }
@@ -216,7 +229,7 @@ class HomeController: UIViewController {
     func fetchNearbyDrivers(){
         guard let location = locationManager?.location else { return }
         Service.shared.fetchDrivers(location: location) { (driver) in
-            print("DEBUG: Driver's Name: \(driver.fullname)")
+            print("DEBUG: Nearby Driver's Name: \(driver.fullname)")
             guard let coordinate = driver.location?.coordinate else { return }
             let annotation = DriverAnnotation(uid: driver.uid, coordinate: coordinate)
             
@@ -236,6 +249,12 @@ class HomeController: UIViewController {
             if !driverIsVisibile{
                 self.mapView.addAnnotation(annotation)
             }
+        }
+    }
+    
+    func observeTrips(){
+        Service.shared.observeTrips { (trip) in
+            self.trip = trip
         }
     }
     
@@ -332,7 +351,7 @@ extension HomeController{
     }
 }
 
-//    MARK: - Extension LocationInputActivationViewDelegate
+//    MARK: - Delegate LocationInputActivationViewDelegate
 
 extension HomeController: LocationInputActivationViewDelegate{
     func presentLocationInputActivationView() {
@@ -343,7 +362,7 @@ extension HomeController: LocationInputActivationViewDelegate{
     }
 }
 
-//    MARK: - Extension LocationInputViewDelegate
+//    MARK: - Delegate LocationInputViewDelegate
 
 extension HomeController: LocationInputViewDelegate {
     func executeSearch(query: String) {
@@ -363,7 +382,7 @@ extension HomeController: LocationInputViewDelegate {
     
 }
 
-//    MARK: - Extension TableView Dalegate and DataSource
+//    MARK: - Delegate TableView Dalegate and DataSource
 
 extension HomeController: UITableViewDelegate, UITableViewDataSource{
     
@@ -402,9 +421,9 @@ extension HomeController: UITableViewDelegate, UITableViewDataSource{
             annotation.coordinate = selectedPlacamark.coordinate
             annotation.title = selectedPlacamark.name
             self.mapView.addAnnotation(annotation)
-            self.mapView.selectAnnotation(annotation, animated: true)
             
             let annotations = self.mapView.annotations.filter({ !$0.isKind(of: DriverAnnotation.self)})
+            self.mapView.zoomToFit(annotations: annotations)
             
             self.mapView.showAnnotations(annotations, animated: true)
             
@@ -425,6 +444,24 @@ extension HomeController: UITableViewDelegate, UITableViewDataSource{
     }
 }
 
+//    MARK: - Delegate RideActionViewDelegate
+
+extension HomeController: RideActionViewDelegate{
+    func uploadTrip(_ view: RideActionView) {
+        
+        guard let pickupCoordinates = locationManager?.location?.coordinate else { return }
+        guard let destinationCoordinates = view.destination?.coordinate else { return }
+        
+        Service.shared.uploadTrip(from: pickupCoordinates, to: destinationCoordinates) { (error, reference) in
+            if let error = error {
+                print("DEBUG: Failed to upload Trip to Database with Error: \(error.localizedDescription) ")
+                return
+            }
+            
+            print("DEBUG: Successfullt Added your Trip.")
+        }
+    }
+}
 
 //    MARK: - MapView Delegate
 

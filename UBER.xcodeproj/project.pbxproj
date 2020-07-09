@@ -24,6 +24,7 @@
 		3529FF0324B4DC0700474CD8 /* DriverAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3529FF0224B4DC0700474CD8 /* DriverAnnotation.swift */; };
 		357BC91724B2FDC500B9495E /* SignupController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 357BC91624B2FDC500B9495E /* SignupController.swift */; };
 		3594271024B623AA00EA8BE3 /* RideActionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3594270F24B623AA00EA8BE3 /* RideActionView.swift */; };
+		3594271224B6FA0700EA8BE3 /* Trip.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3594271124B6FA0700EA8BE3 /* Trip.swift */; };
 		35CF7A4E24B3777D005AD00D /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 35CF7A4D24B3777D005AD00D /* GoogleService-Info.plist */; };
 		35CF7A5124B44B80005AD00D /* HomeController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35CF7A5024B44B80005AD00D /* HomeController.swift */; };
 		6D849D8CB6BFDCA6B60148EC /* Pods_UBER.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2F85744D2ED76FF981D8DB6D /* Pods_UBER.framework */; };
@@ -52,6 +53,7 @@
 		3529FF0224B4DC0700474CD8 /* DriverAnnotation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DriverAnnotation.swift; sourceTree = "<group>"; };
 		357BC91624B2FDC500B9495E /* SignupController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignupController.swift; sourceTree = "<group>"; };
 		3594270F24B623AA00EA8BE3 /* RideActionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = RideActionView.swift; path = UBER/Model/RideActionView.swift; sourceTree = SOURCE_ROOT; };
+		3594271124B6FA0700EA8BE3 /* Trip.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Trip.swift; sourceTree = "<group>"; };
 		35CF7A4D24B3777D005AD00D /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		35CF7A5024B44B80005AD00D /* HomeController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -111,6 +113,7 @@
 			children = (
 				3529FEFE24B4B2DA00474CD8 /* User.swift */,
 				3529FF0224B4DC0700474CD8 /* DriverAnnotation.swift */,
+				3594271124B6FA0700EA8BE3 /* Trip.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -290,6 +293,7 @@
 				3522965324B2F1EF00CCE4B8 /* ViewController.swift in Sources */,
 				35CF7A5124B44B80005AD00D /* HomeController.swift in Sources */,
 				3522966A24B2F47F00CCE4B8 /* LoginController.swift in Sources */,
+				3594271224B6FA0700EA8BE3 /* Trip.swift in Sources */,
 				3529FF0324B4DC0700474CD8 /* DriverAnnotation.swift in Sources */,
 				3529FEFB24B4850900474CD8 /* LocationInputView.swift in Sources */,
 				357BC91724B2FDC500B9495E /* SignupController.swift in Sources */,
