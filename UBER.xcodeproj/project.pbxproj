@@ -23,6 +23,7 @@
 		3529FF0124B4B8C500474CD8 /* LocationHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3529FF0024B4B8C500474CD8 /* LocationHandler.swift */; };
 		3529FF0324B4DC0700474CD8 /* DriverAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3529FF0224B4DC0700474CD8 /* DriverAnnotation.swift */; };
 		357BC91724B2FDC500B9495E /* SignupController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 357BC91624B2FDC500B9495E /* SignupController.swift */; };
+		3594271024B623AA00EA8BE3 /* RideActionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3594270F24B623AA00EA8BE3 /* RideActionView.swift */; };
 		35CF7A4E24B3777D005AD00D /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 35CF7A4D24B3777D005AD00D /* GoogleService-Info.plist */; };
 		35CF7A5124B44B80005AD00D /* HomeController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35CF7A5024B44B80005AD00D /* HomeController.swift */; };
 		6D849D8CB6BFDCA6B60148EC /* Pods_UBER.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2F85744D2ED76FF981D8DB6D /* Pods_UBER.framework */; };
@@ -50,6 +51,7 @@
 		3529FF0024B4B8C500474CD8 /* LocationHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationHandler.swift; sourceTree = "<group>"; };
 		3529FF0224B4DC0700474CD8 /* DriverAnnotation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DriverAnnotation.swift; sourceTree = "<group>"; };
 		357BC91624B2FDC500B9495E /* SignupController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignupController.swift; sourceTree = "<group>"; };
+		3594270F24B623AA00EA8BE3 /* RideActionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = RideActionView.swift; path = UBER/Model/RideActionView.swift; sourceTree = SOURCE_ROOT; };
 		35CF7A4D24B3777D005AD00D /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		35CF7A5024B44B80005AD00D /* HomeController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -119,6 +121,7 @@
 				3529FEF624B4649800474CD8 /* LocationInputActivationView.swift */,
 				3529FEFC24B4A1A500474CD8 /* LocationCell.swift */,
 				3529FEFA24B4850900474CD8 /* LocationInputView.swift */,
+				3594270F24B623AA00EA8BE3 /* RideActionView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -293,6 +296,7 @@
 				3529FEFD24B4A1A500474CD8 /* LocationCell.swift in Sources */,
 				3529FF0124B4B8C500474CD8 /* LocationHandler.swift in Sources */,
 				3529FEF924B475EC00474CD8 /* Service.swift in Sources */,
+				3594271024B623AA00EA8BE3 /* RideActionView.swift in Sources */,
 				3529FEFF24B4B2DA00474CD8 /* User.swift in Sources */,
 				3522964F24B2F1EF00CCE4B8 /* AppDelegate.swift in Sources */,
 				3529FEF724B4649800474CD8 /* LocationInputActivationView.swift in Sources */,
