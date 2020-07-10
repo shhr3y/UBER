@@ -11,12 +11,47 @@ import MapKit
 
 protocol RideActionViewDelegate: class {
     func uploadTrip(_ view: RideActionView)
+    func cancelTrip()
+}
+
+enum RideActionViewConfiguration {
+    case requestRide
+    case tripAccepted
+    case pickupPassenger
+    case driverArrived
+    case tripInProgress
+    case endTrip
+    
+    init() {
+        self = .requestRide
+    }
+}
+
+enum ButtonAction: CustomStringConvertible{
+    case requestRide
+    case cancel
+    case getDirections
+    case pickup
+    case dropOff
+    
+    var description: String {
+        switch self {
+        case .requestRide: return "CONFIRM UBER X"
+        case .cancel: return " CANCEL RIDE"
+        case .getDirections: return "GET DIRECTIONS"
+        case .pickup: return "PICKUP PASSENGER"
+        case .dropOff: return "DROP OFF PASSENGER"
+        }
+    }
+    
+    init() {
+        self = .requestRide
+    }
 }
 
 
 class RideActionView: UIView {
     
-    weak  var delegate: RideActionViewDelegate?
     
     var destination: MKPlacemark? {
         didSet{
@@ -24,12 +59,20 @@ class RideActionView: UIView {
             addressLabel.text = destination?.address
         }
     }
-
+    
+    var buttonAction = ButtonAction()
+    weak var delegate: RideActionViewDelegate?
+    var user: User?
+    
+    var config = RideActionViewConfiguration() {
+        didSet{
+            configureUI(withConfig: config)
+        }
+    }
     //    MARK: - Properties
     private let titleLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 18)
-        label.text = "titleLabel"
         label.textColor = .black
         label.textAlignment = .center
         return label
@@ -38,7 +81,6 @@ class RideActionView: UIView {
     private let addressLabel: UILabel = {
         let label = UILabel()
         label.textColor = .lightGray
-        label.text = "addressLabel"
         label.font = UIFont.systemFont(ofSize: 16)
         label.textAlignment = .center
         return label
@@ -48,17 +90,20 @@ class RideActionView: UIView {
         let view = UIView()
         view.backgroundColor = .black
         
+        view.addSubview(infoViewLabel)
+        infoViewLabel.centerX(inView: view)
+        infoViewLabel.centerY(inView: view)
+        
+        return view
+    }()
+    
+    private let infoViewLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 30)
         label.textColor = .white
         label.text = "X"
         
-        view.addSubview(label)
-        label.centerX(inView: view)
-        label.centerY(inView: view)
-        
-        
-        return view
+        return label
     }()
     
     private let infoLabel: UILabel = {
@@ -121,9 +166,6 @@ class RideActionView: UIView {
         actionButton.anchor(top: separatorView.bottomAnchor,left: leftAnchor, right: rightAnchor,paddingTop: 20, paddingLeft: 30, paddingRight: 30, height: 50)
         actionButton.centerX(inView: self)
         
-        
-        
-        
     }
     
     required init?(coder: NSCoder) {
@@ -133,8 +175,76 @@ class RideActionView: UIView {
     //    MARK: - Selector
     
     @objc func actionButtonPressed(){
-        delegate?.uploadTrip(self)
+        switch buttonAction {
+        case .requestRide:
+            delegate?.uploadTrip(self)
+        case .cancel:
+            delegate?.cancelTrip()
+        case .getDirections:
+            print("DEBUG: handleGetDirection")
+        case .pickup:
+            print("DEBUG: HandlePickup")
+        case .dropOff:
+            print("DEBUG: HandleDropOff")
+        }
     }
     
     //    MARK: - Helper Functions
+    
+    private func configureUI(withConfig config: RideActionViewConfiguration){
+        switch config {
+        case .requestRide:
+            buttonAction = .requestRide
+            actionButton.setTitle(buttonAction.description, for: .normal)
+        case .tripAccepted:
+            guard let user = user else { return }
+            
+            if user.accountType == .passenger {
+                titleLabel.text = "En Route to Passenger"
+                buttonAction = .getDirections
+                actionButton.setTitle(buttonAction.description, for: .normal )
+            }else{
+                buttonAction = .cancel
+                actionButton.setTitle(buttonAction.description, for: .normal)
+                titleLabel.text = "Driver is on your way!"
+                addressLabel.text = ""
+            }
+            
+            infoViewLabel.text = String(user.fullname.first ?? "X")
+            infoLabel.text = user.fullname
+        case .driverArrived:
+            guard let user = user else { return }
+            if user.accountType == .driver {
+                titleLabel.text = "Driver has Arrived"
+                addressLabel.text = "Please meet Driver at Pickup Location"
+            }
+            
+        case .pickupPassenger:
+            titleLabel.text = "Arrived at Passenger Location"
+            buttonAction = .pickup
+            actionButton.setTitle(buttonAction.description, for: .normal)
+        case .tripInProgress:
+            guard let user = user else { return }
+            
+            if user.accountType == .driver {
+                actionButton.setTitle("TRIP IN PROGRESS", for: .normal)
+                actionButton.isEnabled = false
+            }else{
+                buttonAction = .getDirections
+                actionButton.setTitle(buttonAction.description, for: .normal)
+            }
+            titleLabel.text = "En Route to Destination"
+        case .endTrip:
+            guard let user = user else { return }
+            
+            if user.accountType == .driver {
+                actionButton.setTitle("ARRIVED AT DESTINATION", for: .normal)
+                actionButton.isEnabled = false
+            }else{
+                buttonAction = .dropOff
+                actionButton.setTitle(buttonAction.description, for: .normal)
+            }
+            titleLabel.text = "En Route to Destination"
+        }
+    }
 }

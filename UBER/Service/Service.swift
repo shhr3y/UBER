@@ -50,7 +50,7 @@ struct Service {
         let pickupArray = [pickupCoordinates.latitude, pickupCoordinates.longitude]
         let destinationArray = [destinationCoordinates.latitude, destinationCoordinates.longitude]
         
-        let values = ["pickupCoordinates": pickupArray, "destinationCoordinated": destinationArray, "state": TripState.isRequested.rawValue] as [String : Any]
+        let values = ["pickupCoordinates": pickupArray, "destinationCoordinates": destinationArray, "state": TripState.isRequested.rawValue] as [String : Any]
         
         DB_REF_TRIPS.child(uid).updateChildValues(values, withCompletionBlock: completion)
     }
@@ -62,5 +62,45 @@ struct Service {
             let trip = Trip(passengerUID: uid, dictionary: dictionary)
              completion(trip)
         }
+    }
+    
+    func observeTripCancelled(trip: Trip, completion: @escaping() -> Void){
+        DB_REF_TRIPS.child(trip.passengerUID).observeSingleEvent(of: .childRemoved, with: { (_) in
+            completion()
+        })
+    }
+    
+    func acceptTrip(trip: Trip, completion: @escaping(Error? ,DatabaseReference) -> Void){
+        guard let uid = Auth.auth().currentUser?.uid else { return }
+        let values = ["driverUID": uid, "state": TripState.isAccepted.rawValue] as [String : Any]
+        
+        DB_REF_TRIPS.child(trip.passengerUID).updateChildValues(values, withCompletionBlock: completion)
+    }
+    
+    func obeseveCurrentTrip(completion: @escaping(Trip) -> Void) {
+        guard let uid = Auth.auth().currentUser?.uid else { return }
+        
+        DB_REF_TRIPS.child(uid).observe(.value) { (snapshot) in
+            guard let dictionary = snapshot.value as? [String:Any] else { return }
+            let uid = snapshot.key
+            let trip = Trip(passengerUID: uid, dictionary: dictionary)
+            completion(trip)
+        }
+    }
+    
+    func cancelTrip(completion: @escaping(Error?, DatabaseReference) -> Void){
+        guard let uid = Auth.auth().currentUser?.uid else { return }
+        DB_REF_TRIPS.child(uid).removeValue(completionBlock: completion)
+    }
+    
+    func updateDriverLocation(location: CLLocation){
+        guard let uid = Auth.auth().currentUser?.uid else { return }
+        let geofire = GeoFire(firebaseRef: DB_REF_DRIVER_LOCATIONS)
+        
+        geofire.setLocation(location, forKey: uid)
+    }
+    
+    func updateTripState(trip: Trip, state: TripState){
+        DB_REF_TRIPS.child(trip.passengerUID).child("state").setValue(state.rawValue)
     }
 }

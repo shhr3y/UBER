@@ -27,6 +27,7 @@
 		3594271224B6FA0700EA8BE3 /* Trip.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3594271124B6FA0700EA8BE3 /* Trip.swift */; };
 		35CF7A4E24B3777D005AD00D /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 35CF7A4D24B3777D005AD00D /* GoogleService-Info.plist */; };
 		35CF7A5124B44B80005AD00D /* HomeController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35CF7A5024B44B80005AD00D /* HomeController.swift */; };
+		35CF835E24B72960005E24B9 /* PickupController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35CF835D24B72960005E24B9 /* PickupController.swift */; };
 		6D849D8CB6BFDCA6B60148EC /* Pods_UBER.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2F85744D2ED76FF981D8DB6D /* Pods_UBER.framework */; };
 /* End PBXBuildFile section */
 
@@ -56,6 +57,7 @@
 		3594271124B6FA0700EA8BE3 /* Trip.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Trip.swift; sourceTree = "<group>"; };
 		35CF7A4D24B3777D005AD00D /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		35CF7A5024B44B80005AD00D /* HomeController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeController.swift; sourceTree = "<group>"; };
+		35CF835D24B72960005E24B9 /* PickupController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PickupController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -135,6 +137,7 @@
 				3522966924B2F47F00CCE4B8 /* LoginController.swift */,
 				357BC91624B2FDC500B9495E /* SignupController.swift */,
 				35CF7A5024B44B80005AD00D /* HomeController.swift */,
+				35CF835D24B72960005E24B9 /* PickupController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -294,6 +297,7 @@
 				35CF7A5124B44B80005AD00D /* HomeController.swift in Sources */,
 				3522966A24B2F47F00CCE4B8 /* LoginController.swift in Sources */,
 				3594271224B6FA0700EA8BE3 /* Trip.swift in Sources */,
+				35CF835E24B72960005E24B9 /* PickupController.swift in Sources */,
 				3529FF0324B4DC0700474CD8 /* DriverAnnotation.swift in Sources */,
 				3529FEFB24B4850900474CD8 /* LocationInputView.swift in Sources */,
 				357BC91724B2FDC500B9495E /* SignupController.swift in Sources */,
