@@ -25,6 +25,9 @@
 		357BC91724B2FDC500B9495E /* SignupController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 357BC91624B2FDC500B9495E /* SignupController.swift */; };
 		3594271024B623AA00EA8BE3 /* RideActionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3594270F24B623AA00EA8BE3 /* RideActionView.swift */; };
 		3594271224B6FA0700EA8BE3 /* Trip.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3594271124B6FA0700EA8BE3 /* Trip.swift */; };
+		359BDBDB24BB0B680071B831 /* MenuController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 359BDBDA24BB0B680071B831 /* MenuController.swift */; };
+		359BDBDD24BB0B8E0071B831 /* ContainerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 359BDBDC24BB0B8E0071B831 /* ContainerController.swift */; };
+		359BDBDF24BB15F00071B831 /* MenuHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 359BDBDE24BB15F00071B831 /* MenuHeader.swift */; };
 		35CF7A4E24B3777D005AD00D /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 35CF7A4D24B3777D005AD00D /* GoogleService-Info.plist */; };
 		35CF7A5124B44B80005AD00D /* HomeController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35CF7A5024B44B80005AD00D /* HomeController.swift */; };
 		35CF835E24B72960005E24B9 /* PickupController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35CF835D24B72960005E24B9 /* PickupController.swift */; };
@@ -55,6 +58,9 @@
 		357BC91624B2FDC500B9495E /* SignupController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignupController.swift; sourceTree = "<group>"; };
 		3594270F24B623AA00EA8BE3 /* RideActionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = RideActionView.swift; path = UBER/Model/RideActionView.swift; sourceTree = SOURCE_ROOT; };
 		3594271124B6FA0700EA8BE3 /* Trip.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Trip.swift; sourceTree = "<group>"; };
+		359BDBDA24BB0B680071B831 /* MenuController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuController.swift; sourceTree = "<group>"; };
+		359BDBDC24BB0B8E0071B831 /* ContainerController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContainerController.swift; sourceTree = "<group>"; };
+		359BDBDE24BB15F00071B831 /* MenuHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = MenuHeader.swift; path = UBER/Controller/Authentication/SideMenu/MenuHeader.swift; sourceTree = SOURCE_ROOT; };
 		35CF7A4D24B3777D005AD00D /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		35CF7A5024B44B80005AD00D /* HomeController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeController.swift; sourceTree = "<group>"; };
 		35CF835D24B72960005E24B9 /* PickupController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PickupController.swift; sourceTree = "<group>"; };
@@ -127,6 +133,7 @@
 				3529FEFC24B4A1A500474CD8 /* LocationCell.swift */,
 				3529FEFA24B4850900474CD8 /* LocationInputView.swift */,
 				3594270F24B623AA00EA8BE3 /* RideActionView.swift */,
+				359BDBDE24BB15F00071B831 /* MenuHeader.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -134,8 +141,7 @@
 		3522966524B2F2CC00CCE4B8 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
-				3522966924B2F47F00CCE4B8 /* LoginController.swift */,
-				357BC91624B2FDC500B9495E /* SignupController.swift */,
+				359BDBD824BB0AD90071B831 /* Authentication */,
 				35CF7A5024B44B80005AD00D /* HomeController.swift */,
 				35CF835D24B72960005E24B9 /* PickupController.swift */,
 			);
@@ -157,6 +163,25 @@
 				3529FEF824B475EC00474CD8 /* Service.swift */,
 			);
 			path = Service;
+			sourceTree = "<group>";
+		};
+		359BDBD824BB0AD90071B831 /* Authentication */ = {
+			isa = PBXGroup;
+			children = (
+				359BDBD924BB0B170071B831 /* SideMenu */,
+				3522966924B2F47F00CCE4B8 /* LoginController.swift */,
+				357BC91624B2FDC500B9495E /* SignupController.swift */,
+			);
+			path = Authentication;
+			sourceTree = "<group>";
+		};
+		359BDBD924BB0B170071B831 /* SideMenu */ = {
+			isa = PBXGroup;
+			children = (
+				359BDBDA24BB0B680071B831 /* MenuController.swift */,
+				359BDBDC24BB0B8E0071B831 /* ContainerController.swift */,
+			);
+			path = SideMenu;
 			sourceTree = "<group>";
 		};
 		D46E28E2A14898052406CB4D /* Frameworks */ = {
@@ -304,9 +329,12 @@
 				3529FEFD24B4A1A500474CD8 /* LocationCell.swift in Sources */,
 				3529FF0124B4B8C500474CD8 /* LocationHandler.swift in Sources */,
 				3529FEF924B475EC00474CD8 /* Service.swift in Sources */,
+				359BDBDD24BB0B8E0071B831 /* ContainerController.swift in Sources */,
+				359BDBDF24BB15F00071B831 /* MenuHeader.swift in Sources */,
 				3594271024B623AA00EA8BE3 /* RideActionView.swift in Sources */,
 				3529FEFF24B4B2DA00474CD8 /* User.swift in Sources */,
 				3522964F24B2F1EF00CCE4B8 /* AppDelegate.swift in Sources */,
+				359BDBDB24BB0B680071B831 /* MenuController.swift in Sources */,
 				3529FEF724B4649800474CD8 /* LocationInputActivationView.swift in Sources */,
 				3522965124B2F1EF00CCE4B8 /* SceneDelegate.swift in Sources */,
 			);
