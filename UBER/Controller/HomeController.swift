@@ -52,7 +52,7 @@ class HomeController: UIViewController {
         return RideActionView()
     }()
     
-    private var user: User? {
+    var user: User? {
         didSet{
             locationInputView.user = user
             if user?.accountType == .passenger {
@@ -97,8 +97,8 @@ class HomeController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        checkIfUserIsLoggedIn()
         enableLocationServices()
+        configure()
     }
     //    MARK: - Selectors
     
@@ -125,7 +125,6 @@ class HomeController: UIViewController {
         print("DEBUG: configuring UI")
         configureMapView()
         configureUI()
-        fetchUserData()
     }
     
     func configureUI(){
@@ -151,6 +150,7 @@ class HomeController: UIViewController {
     }
     
     func configureMapView(){
+        
         view.addSubview(mapView)
         mapView.frame = view.frame
         
@@ -342,44 +342,6 @@ class HomeController: UIViewController {
             self.animateRideActionView(shouldShow: false)
             self.centerMapOnUserLocation()
             self.presentAlertController(withTitle: "Oops!", withMessage: "This Trip was cancelled by the Passenger.")
-        }
-    }
-    
-    //    MARK: - Shared API Calls
-    func checkIfUserIsLoggedIn(){
-        if Auth.auth().currentUser?.uid == nil {
-            print("DEBUG: User not logged in!")
-            DispatchQueue.main.async {
-                let nav = UINavigationController(rootViewController: LoginController())
-                nav.modalPresentationStyle = .fullScreen
-                self.present(nav, animated: true, completion: nil)
-            }
-        }else{
-            configure()
-            print("DEBUG: USER is logged in!")
-            print("DEBUG: UID: \(Auth.auth().currentUser!.uid)")
-        }
-    }
-
-    func fetchUserData(){
-        guard let currentUID = Auth.auth().currentUser?.uid else { return }
-        Service.shared.fetchUserData(currentUID: currentUID) { (user) in
-            self.user = user
-            print("DEBUG: \(user.fullname) is logged in!")
-        }
-    }
-    
-    
-    func signOut(){
-        do{
-            try Auth.auth().signOut()
-            DispatchQueue.main.async {
-                let nav = UINavigationController(rootViewController: LoginController())
-                nav.modalPresentationStyle = .fullScreen
-                self.present(nav, animated: true, completion: nil)
-            }
-        }catch{
-            print("DEBUG: \(error)")
         }
     }
 }

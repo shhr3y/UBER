@@ -60,7 +60,7 @@
 		3594271124B6FA0700EA8BE3 /* Trip.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Trip.swift; sourceTree = "<group>"; };
 		359BDBDA24BB0B680071B831 /* MenuController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuController.swift; sourceTree = "<group>"; };
 		359BDBDC24BB0B8E0071B831 /* ContainerController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContainerController.swift; sourceTree = "<group>"; };
-		359BDBDE24BB15F00071B831 /* MenuHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = MenuHeader.swift; path = UBER/Controller/Authentication/SideMenu/MenuHeader.swift; sourceTree = SOURCE_ROOT; };
+		359BDBDE24BB15F00071B831 /* MenuHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = MenuHeader.swift; path = UBER/View/MenuHeader.swift; sourceTree = SOURCE_ROOT; };
 		35CF7A4D24B3777D005AD00D /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		35CF7A5024B44B80005AD00D /* HomeController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeController.swift; sourceTree = "<group>"; };
 		35CF835D24B72960005E24B9 /* PickupController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PickupController.swift; sourceTree = "<group>"; };
@@ -142,6 +142,7 @@
 			isa = PBXGroup;
 			children = (
 				359BDBD824BB0AD90071B831 /* Authentication */,
+				359BDBD924BB0B170071B831 /* SideMenu */,
 				35CF7A5024B44B80005AD00D /* HomeController.swift */,
 				35CF835D24B72960005E24B9 /* PickupController.swift */,
 			);
@@ -168,7 +169,6 @@
 		359BDBD824BB0AD90071B831 /* Authentication */ = {
 			isa = PBXGroup;
 			children = (
-				359BDBD924BB0B170071B831 /* SideMenu */,
 				3522966924B2F47F00CCE4B8 /* LoginController.swift */,
 				357BC91624B2FDC500B9495E /* SignupController.swift */,
 			);
@@ -178,8 +178,8 @@
 		359BDBD924BB0B170071B831 /* SideMenu */ = {
 			isa = PBXGroup;
 			children = (
-				359BDBDA24BB0B680071B831 /* MenuController.swift */,
 				359BDBDC24BB0B8E0071B831 /* ContainerController.swift */,
+				359BDBDA24BB0B680071B831 /* MenuController.swift */,
 			);
 			path = SideMenu;
 			sourceTree = "<group>";

@@ -92,7 +92,7 @@ class LoginController: UIViewController {
                     return
                 }else{
                     print("DEBUG: Login Successful for Email: ", result?.user.email! as Any)
-                    guard let controller = UIApplication.shared.keyWindow?.rootViewController as? HomeController else { return }
+                    guard let controller = UIApplication.shared.keyWindow?.rootViewController as? ContainerController else { return }
                     controller.checkIfUserIsLoggedIn()
                     self.dismiss(animated: true, completion: nil)
                 }

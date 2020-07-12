@@ -150,7 +150,7 @@ class SignupController: UIViewController {
                 print("DEBUG: Database from Database: ",error.localizedDescription)
             }else{
                 print("DEBUG: Succesfully registered User and saved in Database.")
-                guard let controller = UIApplication.shared.keyWindow?.rootViewController as? HomeController else { return }
+                guard let controller = UIApplication.shared.keyWindow?.rootViewController as? ContainerController else { return }
                 controller.checkIfUserIsLoggedIn()
                 self.dismiss(animated: true, completion: nil)
             }
