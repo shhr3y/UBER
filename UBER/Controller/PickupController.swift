@@ -72,7 +72,7 @@ class PickupController: UIViewController {
     
     @objc func handleAcceptTrip(){
         print("DEBUG: Ride Accepted")
-        Service.shared.acceptTrip(trip: trip) { (error, reference) in
+        DriverService.shared.acceptTrip(trip: trip) { (error, reference) in
             self.delegate?.didAcceptTrip(trip: self.trip)
         }
     }

@@ -238,19 +238,11 @@ class HomeController: UIViewController {
     }
 
     
-    //    MARK: - API
-    
-    func fetchUserData(){
-        guard let currentUID = Auth.auth().currentUser?.uid else { return }
-        Service.shared.fetchUserData(currentUID: currentUID) { (user) in
-            self.user = user
-            print("DEBUG: \(user.fullname) is logged in!")
-        }
-    }
+    //    MARK: - Passenger API Calls
     
     func fetchNearbyDrivers(){
         guard let location = locationManager?.location else { return }
-        Service.shared.fetchDrivers(location: location) { (driver) in
+        PassengerService.shared.fetchDrivers(location: location) { (driver) in
             print("DEBUG: Nearby Driver's Name: \(driver.fullname)")
             guard let coordinate = driver.location?.coordinate else { return }
             let annotation = DriverAnnotation(uid: driver.uid, coordinate: coordinate)
@@ -275,29 +267,8 @@ class HomeController: UIViewController {
         }
     }
     
-    func observeTrips(){
-        Service.shared.observeTrips { (trip) in
-            self.trip = trip
-        }
-    }
-    
-    func checkIfUserIsLoggedIn(){
-        if Auth.auth().currentUser?.uid == nil {
-            print("DEBUG: User not logged in!")
-            DispatchQueue.main.async {
-                let nav = UINavigationController(rootViewController: LoginController())
-                nav.modalPresentationStyle = .fullScreen
-                self.present(nav, animated: true, completion: nil)
-            }
-        }else{
-            configure()
-            print("DEBUG: USER is logged in!")
-            print("DEBUG: UID: \(Auth.auth().currentUser!.uid)")
-        }
-    }
-    
     func observeCurrentTrip() {
-        Service.shared.obeseveCurrentTrip { (trip) in
+        PassengerService.shared.obeseveCurrentTrip { (trip) in
             self.trip = trip
             
             guard let driverUID = trip.driverUID else { return }
@@ -324,7 +295,7 @@ class HomeController: UIViewController {
             case .arrivedAtDestination:
                 self.rideActionView.config = .endTrip
             case .isCompleted:
-                Service.shared.deleteTrip { (error, reference) in
+                PassengerService.shared.deleteTrip { (error, reference) in
                     self.animateRideActionView(shouldShow: false)
                     self.centerMapOnUserLocation()
                     self.configureActionButton(config: .showMenu)
@@ -337,7 +308,7 @@ class HomeController: UIViewController {
     
     func startTrip(){
         guard let trip = self.trip else { return }
-        Service.shared.updateTripState(trip: trip, state: .inProgress) { (error, reference) in
+        DriverService.shared.updateTripState(trip: trip, state: .inProgress) { (error, reference) in
             self.rideActionView.config = .tripInProgress
             self.removeAnnotaionsAndOverlays()
             self.mapView.addAnnotationAndSelect(forCoordinates: trip.destinationCoordinates)
@@ -351,6 +322,48 @@ class HomeController: UIViewController {
             self.mapView.zoomToFit(annotations: self.mapView.annotations)
         }
     }
+    
+    //    MARK: - Driver API Calls
+    
+    func observeTrips(){
+        DriverService.shared.observeTrips { (trip) in
+            self.trip = trip
+        }
+    }
+    
+    func observeCancelledTrip(forTrip trip: Trip){
+        DriverService.shared.observeTripCancelled(trip: trip) {
+            self.removeAnnotaionsAndOverlays()
+            self.animateRideActionView(shouldShow: false)
+            self.centerMapOnUserLocation()
+            self.presentAlertController(withTitle: "Oops!", withMessage: "This Trip was cancelled by the Passenger.")
+        }
+    }
+    
+    //    MARK: - Shared API Calls
+    func checkIfUserIsLoggedIn(){
+        if Auth.auth().currentUser?.uid == nil {
+            print("DEBUG: User not logged in!")
+            DispatchQueue.main.async {
+                let nav = UINavigationController(rootViewController: LoginController())
+                nav.modalPresentationStyle = .fullScreen
+                self.present(nav, animated: true, completion: nil)
+            }
+        }else{
+            configure()
+            print("DEBUG: USER is logged in!")
+            print("DEBUG: UID: \(Auth.auth().currentUser!.uid)")
+        }
+    }
+
+    func fetchUserData(){
+        guard let currentUID = Auth.auth().currentUser?.uid else { return }
+        Service.shared.fetchUserData(currentUID: currentUID) { (user) in
+            self.user = user
+            print("DEBUG: \(user.fullname) is logged in!")
+        }
+    }
+    
     
     func signOut(){
         do{
@@ -468,13 +481,13 @@ extension HomeController: CLLocationManagerDelegate {
         
         if region.identifier == AnnotationType.pickup.rawValue {
             print("DEBUG: Did start Monitering pickup region: \(region)")
-            Service.shared.updateTripState(trip: trip, state: .driverArrived) { (error, reference) in
+            DriverService.shared.updateTripState(trip: trip, state: .driverArrived) { (error, reference) in
                 self.rideActionView.config = .pickupPassenger
             }
         }
         if region.identifier == AnnotationType.destination.rawValue {
             print("DEBUG: Did start Monitering detination region: \(region)")
-            Service.shared.updateTripState(trip: trip, state: .arrivedAtDestination) { (error, reference) in
+            DriverService.shared.updateTripState(trip: trip, state: .arrivedAtDestination) { (error, reference) in
                 self.rideActionView.config = .endTrip
             }
         }
@@ -590,7 +603,7 @@ extension HomeController: UITableViewDelegate, UITableViewDataSource{
 extension HomeController: RideActionViewDelegate{
     func cancelTrip() {
         print("DEBUG: Trip Cancelled")
-        Service.shared.deleteTrip { (error, reference) in
+        PassengerService.shared.deleteTrip { (error, reference) in
             if let error = error {
                 print("DEBUG: Error Cancelling Ride: \(error.localizedDescription)")
                 return
@@ -613,7 +626,7 @@ extension HomeController: RideActionViewDelegate{
         
         shouldPresentLoadingView(true, message: "Finding you a ride...")
         
-        Service.shared.uploadTrip(from: pickupCoordinates, to: destinationCoordinates) { (error, reference) in
+        PassengerService.shared.uploadTrip(from: pickupCoordinates, to: destinationCoordinates) { (error, reference) in
             if let error = error {
                 print("DEBUG: Failed to upload Trip to Database with Error: \(error.localizedDescription) ")
                 return
@@ -632,7 +645,7 @@ extension HomeController: RideActionViewDelegate{
     func droppOffPassenger() {
         guard let trip = self.trip else { return }
         
-        Service.shared.updateTripState(trip: trip, state: .isCompleted) { (error, reference) in
+        DriverService.shared.updateTripState(trip: trip, state: .isCompleted) { (error, reference) in
             self.removeAnnotaionsAndOverlays()
             self.centerMapOnUserLocation()
             self.animateRideActionView(shouldShow: false)
@@ -657,12 +670,7 @@ extension HomeController: PickupControllerDelegate{
         
         mapView.zoomToFit(annotations: mapView.annotations)
         
-        Service.shared.observeTripCancelled(trip: trip) {
-            self.removeAnnotaionsAndOverlays()
-            self.animateRideActionView(shouldShow: false)
-            self.centerMapOnUserLocation()
-            self.presentAlertController(withTitle: "Oops!", withMessage: "This Trip was cancelled by the Passenger.")
-        }
+        observeCancelledTrip(forTrip: trip)
         
         self.dismiss(animated: true) {
             Service.shared.fetchUserData(currentUID: trip.passengerUID) { (passenger) in
@@ -680,7 +688,7 @@ extension HomeController: MKMapViewDelegate{
         guard user.accountType == .driver else { return }
         
         guard let location = userLocation.location else { return }
-        Service.shared.updateDriverLocation(location: location)
+        PassengerService.shared.updateDriverLocation(location: location)
     }
     
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
