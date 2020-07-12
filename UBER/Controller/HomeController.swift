@@ -324,10 +324,13 @@ class HomeController: UIViewController {
             case .arrivedAtDestination:
                 self.rideActionView.config = .endTrip
             case .isCompleted:
-                self.animateRideActionView(shouldShow: false)
-                self.centerMapOnUserLocation()
-                self.configureActionButton(config: .showMenu)
-                self.presentAlertController(withTitle: "Trip Completed", withMessage: "We hope you enjoyed your trip with \(driverUID)")
+                Service.shared.deleteTrip { (error, reference) in
+                    self.animateRideActionView(shouldShow: false)
+                    self.centerMapOnUserLocation()
+                    self.configureActionButton(config: .showMenu)
+                    self.inputActivationView.alpha = 1
+                    self.presentAlertController(withTitle: "Trip Completed", withMessage: "We hope you enjoyed your trip with \(driverUID)")
+                }
             }
         }
     }
@@ -345,7 +348,7 @@ class HomeController: UIViewController {
             let mapItem = MKMapItem(placemark: placemark)
             self.generatePolyline(toDestination: mapItem)
             
-            
+            self.mapView.zoomToFit(annotations: self.mapView.annotations)
         }
     }
     
@@ -587,7 +590,7 @@ extension HomeController: UITableViewDelegate, UITableViewDataSource{
 extension HomeController: RideActionViewDelegate{
     func cancelTrip() {
         print("DEBUG: Trip Cancelled")
-        Service.shared.cancelTrip { (error, reference) in
+        Service.shared.deleteTrip { (error, reference) in
             if let error = error {
                 print("DEBUG: Error Cancelling Ride: \(error.localizedDescription)")
                 return
