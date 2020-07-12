@@ -100,7 +100,7 @@ struct Service {
         geofire.setLocation(location, forKey: uid)
     }
     
-    func updateTripState(trip: Trip, state: TripState){
-        DB_REF_TRIPS.child(trip.passengerUID).child("state").setValue(state.rawValue)
+    func updateTripState(trip: Trip, state: TripState, completion: @escaping(Error?, DatabaseReference) -> Void){
+        DB_REF_TRIPS.child(trip.passengerUID).child("state").setValue(state.rawValue, withCompletionBlock: completion)
     }
 }
