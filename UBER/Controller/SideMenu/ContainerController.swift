@@ -151,6 +151,14 @@ class ContainerController: UIViewController {
     }
 }
 
+
+//    MARK: - Delegate SettingsControllerDelegate
+
+extension ContainerController: SettingsControllerDelegate{
+    func updateUser(_ controller: SettingsController) {
+        self.user = controller.user
+    }
+}
 //    MARK: - Delegate MenuControllerDelagate
 extension ContainerController: MenuControllerDelegate {
     func didSelectOption(option: MenuOptions) {
@@ -160,7 +168,9 @@ extension ContainerController: MenuControllerDelegate {
             case .youTtrips:
                 break
             case .settings:
-                let controller = SettingsController()
+                guard let user = self.user else { return }
+                let controller = SettingsController(user: user)
+                controller.delegate = self
                 let nav = UINavigationController(rootViewController: controller)
                 nav.modalPresentationStyle = .fullScreen
                 self.present(nav, animated: true, completion: nil)

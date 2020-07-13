@@ -1,14 +1,16 @@
+
 //
-//  MenuHeader.swift
+//  UserInfoHeader.swift
 //  UBER
 //
-//  Created by Shrey Gupta on 12/07/20.
+//  Created by Shrey Gupta on 13/07/20.
 //  Copyright © 2020 Shrey Gupta. All rights reserved.
 //
 
 import UIKit
 
-class MenuHeader: UIView {
+class UserInfoHeader: UIView {
+    
     //    MARK: - Properties
     private let user: User
     
@@ -35,7 +37,6 @@ class MenuHeader: UIView {
     }()
     
     
-    
     //    MARK: - Lifecycle
     init(user: User, frame: CGRect) {
         self.user = user
@@ -44,10 +45,9 @@ class MenuHeader: UIView {
         backgroundColor = . backgroundColor
         
         addSubview(profileImageView)
-        profileImageView.anchor(top: topAnchor, left: leftAnchor, paddingTop: 4, paddingLeft: 12)
+        profileImageView.anchor(top: topAnchor, left: leftAnchor, paddingTop: 18, paddingLeft: 12)
         profileImageView.setDimensions(height: 64, width: 64)
         profileImageView.layer.cornerRadius = 64/2
-        
         
         let stack = UIStackView(arrangedSubviews: [fullnameLabel, emailLabel])
         stack.distribution = .fillEqually
@@ -62,9 +62,6 @@ class MenuHeader: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    
     //    MARK: - Selectors
     
-    
-    //    MARK: - Helper Functions
 }

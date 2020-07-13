@@ -18,19 +18,18 @@ class LocationCell: UITableViewCell {
             addressLabel.text = placemark?.address
         }
     }
-    
-    private let titleLabel: UILabel = {
+
+    let titleLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 14)
-        label.text = "Star Galaxy"
+        
         return label
     }()
     
-    private let addressLabel: UILabel = {
+    let addressLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 14)
         label.textColor = .lightGray
-        label.text = "Star Galaxy, Vesu, Surat"
         return label
     }()
     
