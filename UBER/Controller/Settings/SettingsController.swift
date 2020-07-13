@@ -137,7 +137,7 @@ extension SettingsController {
 
     override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let view = UIView()
-        view.backgroundColor = .darkGray
+        view.backgroundColor = .lightGray
         
         let title = UILabel()
         title.font = UIFont.systemFont(ofSize: 16)

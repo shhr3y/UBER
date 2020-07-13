@@ -17,8 +17,20 @@ class PickupController: UIViewController {
     //    MARK: - Properties
     
     weak var delegate: PickupControllerDelegate?
-    
+    let trip: Trip
     private let mapView = MKMapView()
+    
+    private lazy var circularProgressView: CircularProgressView = {
+        let frame = CGRect(x: 0, y: 0, width: 360, height: 360)
+        let cp = CircularProgressView(frame: frame)
+        cp.addSubview(mapView)
+        mapView.setDimensions(height: 268, width: 268)
+        mapView.layer.cornerRadius =  268/2
+        mapView.centerX(inView: cp)
+        mapView.centerY(inView: cp, constant: 32)
+        
+        return cp
+    }()
     
     private let cancelButton: UIButton = {
         let button = UIButton()
@@ -45,7 +57,7 @@ class PickupController: UIViewController {
         return button
     }()
     
-    let trip: Trip
+ 
     
     
     //    MARK: - Lifecycle
@@ -63,11 +75,22 @@ class PickupController: UIViewController {
         super.viewDidLoad()
         configureUI()
         configureMapView()
+        self.perform(#selector(animateProgress), with: nil, afterDelay: 0.5)
     }
     
     //    MARK: - Selectors
     @objc func handleDimissal(){
         dismiss(animated: true, completion: nil)
+    }
+    
+    @objc func animateProgress() {
+        circularProgressView.animatePulsatingLayer()
+        circularProgressView.setProgressWithAnimation(duration: 15, value: 0) {
+            DriverService.shared.updateTripState(trip: self.trip, state: .isDenied) { (err, ref) in
+                print("DEBUG: Denied is Called")
+                self.dismiss(animated: true, completion: nil)
+            }
+        }
     }
     
     @objc func handleAcceptTrip(){
@@ -87,16 +110,24 @@ class PickupController: UIViewController {
         view.addSubview(cancelButton)
         cancelButton.anchor(top: view.safeAreaLayoutGuide.topAnchor, left: view.leftAnchor,paddingTop: 14, paddingLeft: 16, width: 40, height: 40)
         
-        view.addSubview(mapView)
-        mapView.setDimensions(height: 270, width: 270)
-        mapView.layer.cornerRadius = 270/2
-        mapView.centerX(inView: view)
-        mapView.centerY(inView: view, constant: -170)
+        
+        //animation stuff
+        view.addSubview(circularProgressView)
+        circularProgressView.setDimensions(height: 360, width: 360)
+        circularProgressView.anchor(top: view.safeAreaLayoutGuide.topAnchor, paddingTop: 32)
+        circularProgressView.centerX(inView: view)
+        
+        
+//        view.addSubview(mapView)
+//        mapView.setDimensions(height: 270, width: 270)
+//        mapView.layer.cornerRadius = 270/2
+//        mapView.centerX(inView: view)
+//        mapView.centerY(inView: view, constant: -170)
         
         
         view.addSubview(pickupLabel)
         pickupLabel.centerX(inView: view)
-        pickupLabel.anchor(top: mapView.bottomAnchor, paddingTop: 270)
+        pickupLabel.anchor(top: circularProgressView.bottomAnchor, paddingTop: 32)
         
         view.addSubview(acceptTripButton)
         acceptTripButton.anchor(top: pickupLabel.bottomAnchor, paddingTop: 20)

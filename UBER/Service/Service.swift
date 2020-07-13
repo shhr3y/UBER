@@ -27,6 +27,7 @@ struct DriverService {
             guard let dictionary = snapshot.value as? [String: Any] else { return }
             let uid = snapshot.key
             let trip = Trip(passengerUID: uid, dictionary: dictionary)
+            print("DEBUG: OBSERVE TRIPS CALLED")
             completion(trip)
         }
     }
@@ -34,19 +35,20 @@ struct DriverService {
     func observeTripCancelled(trip: Trip, completion: @escaping() -> Void){
         DB_REF_TRIPS.child(trip.passengerUID).observeSingleEvent(of: .childRemoved, with: { (_) in
             completion()
+            print("DEBUG: OBSERVE TRIP CANCELLED CALLED")
         })
     }
     
     func acceptTrip(trip: Trip, completion: @escaping(Error? ,DatabaseReference) -> Void){
         guard let uid = Auth.auth().currentUser?.uid else { return }
         let values = ["driverUID": uid, "state": TripState.isAccepted.rawValue] as [String : Any]
-        
+        print("DEBUG: ACCEPTTRIP CALLED")
         DB_REF_TRIPS.child(trip.passengerUID).updateChildValues(values, withCompletionBlock: completion)
     }
     
     func updateTripState(trip: Trip, state: TripState, completion: @escaping(Error?, DatabaseReference) -> Void){
         DB_REF_TRIPS.child(trip.passengerUID).child("state").setValue(state.rawValue, withCompletionBlock: completion)
-        
+        print("DEBUG: UPDATE TRIP STATE CALLED")
         if state == .isCompleted {
             DB_REF_TRIPS.child(trip.passengerUID).removeAllObservers()
         }
@@ -67,6 +69,7 @@ struct PassengerService {
                 Service.shared.fetchUserData(currentUID: uid) { (user) in
                     var driver = user
                     driver.location = location
+                    print("DEBUG: FETCH DRIVERS CALLED")
                     completion(driver)
                 }
             })
@@ -80,7 +83,7 @@ struct PassengerService {
         let destinationArray = [destinationCoordinates.latitude, destinationCoordinates.longitude]
         
         let values = ["pickupCoordinates": pickupArray, "destinationCoordinates": destinationArray, "state": TripState.isRequested.rawValue] as [String : Any]
-        
+        print("DEBUG: UPLOAD TRIP CALLED")
         DB_REF_TRIPS.child(uid).updateChildValues(values, withCompletionBlock: completion)
     }
     
@@ -92,6 +95,7 @@ struct PassengerService {
             let uid = snapshot.key
             let trip = Trip(passengerUID: uid, dictionary: dictionary)
             completion(trip)
+            print("DEBUG: OBSERVE CURRENT TRIP CALLED")
         }
     }
     
@@ -100,18 +104,20 @@ struct PassengerService {
         let geofire = GeoFire(firebaseRef: DB_REF_DRIVER_LOCATIONS)
         
         geofire.setLocation(location, forKey: uid)
+        print("DEBUG: UPDATE DRIVER LOCATION CALLED")
     }
     
     func deleteTrip(completion: @escaping(Error?, DatabaseReference) -> Void){
         guard let uid = Auth.auth().currentUser?.uid else { return }
         DB_REF_TRIPS.child(uid).removeValue(completionBlock: completion)
+        print("DEBUG: DELETE TRIP CALLED")
     }
     
     func saveLocation(locationString: String, type: LocationType, completion: @escaping(Error?, DatabaseReference)-> Void){
         
         guard let uid = Auth.auth().currentUser?.uid else { return }
         let key: String = type == .home ? "homeLocation" : "workLocation"
-        
+        print("DEBUG: SAVE LOCATION CALLED")
         DB_REF_USERS.child(uid).child(key).setValue(locationString, withCompletionBlock: completion)
     }
 }

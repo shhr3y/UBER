@@ -298,6 +298,16 @@ class HomeController: UIViewController {
                 
             case .isRequested:
                 break
+            case .isDenied:
+                self.shouldPresentLoadingView(false)
+                print("DEBUG: IS DENIED CASE CALLED")
+                PassengerService.shared.deleteTrip { (err, ref) in
+                    self.presentAlertController(withTitle: "Oops!", withMessage: "Sorry, It looks like we couldnt find you a driver. Please try again..")
+                    self.centerMapOnUserLocation()
+                    self.configureActionButton(config: .showMenu)
+                    self.inputActivationView.alpha = 1
+                    self.removeAnnotaionsAndOverlays()
+                } 
             case .isAccepted:
                 print("DEBUG: Trip was Accepted")
                 self.shouldPresentLoadingView(false)
@@ -585,7 +595,7 @@ extension HomeController: UITableViewDelegate, UITableViewDataSource{
 
 extension HomeController: RideActionViewDelegate{
     func cancelTrip() {
-        print("DEBUG: Trip Cancelled")
+        print("DEBUG: cancelTrip called")
         PassengerService.shared.deleteTrip { (error, reference) in
             if let error = error {
                 print("DEBUG: Error Cancelling Ride: \(error.localizedDescription)")
