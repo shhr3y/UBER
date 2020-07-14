@@ -27,6 +27,7 @@
 		353217CE24BC63C200F49D88 /* AddLocationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 353217CD24BC63C200F49D88 /* AddLocationController.swift */; };
 		353217D024BC8B2400F49D88 /* CircularProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 353217CF24BC8B2400F49D88 /* CircularProgressView.swift */; };
 		357BC91724B2FDC500B9495E /* SignupController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 357BC91624B2FDC500B9495E /* SignupController.swift */; };
+		3593375424BDE37F00E2636C /* TripCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3593375324BDE37F00E2636C /* TripCell.swift */; };
 		3594271024B623AA00EA8BE3 /* RideActionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3594270F24B623AA00EA8BE3 /* RideActionView.swift */; };
 		3594271224B6FA0700EA8BE3 /* Trip.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3594271124B6FA0700EA8BE3 /* Trip.swift */; };
 		359BDBDB24BB0B680071B831 /* MenuController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 359BDBDA24BB0B680071B831 /* MenuController.swift */; };
@@ -65,6 +66,7 @@
 		353217CD24BC63C200F49D88 /* AddLocationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddLocationController.swift; sourceTree = "<group>"; };
 		353217CF24BC8B2400F49D88 /* CircularProgressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircularProgressView.swift; sourceTree = "<group>"; };
 		357BC91624B2FDC500B9495E /* SignupController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignupController.swift; sourceTree = "<group>"; };
+		3593375324BDE37F00E2636C /* TripCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripCell.swift; sourceTree = "<group>"; };
 		3594270F24B623AA00EA8BE3 /* RideActionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = RideActionView.swift; path = UBER/Model/RideActionView.swift; sourceTree = SOURCE_ROOT; };
 		3594271124B6FA0700EA8BE3 /* Trip.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Trip.swift; sourceTree = "<group>"; };
 		359BDBDA24BB0B680071B831 /* MenuController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuController.swift; sourceTree = "<group>"; };
@@ -141,6 +143,7 @@
 			children = (
 				3529FEF624B4649800474CD8 /* LocationInputActivationView.swift */,
 				3529FEFC24B4A1A500474CD8 /* LocationCell.swift */,
+				3593375324BDE37F00E2636C /* TripCell.swift */,
 				353217CA24BC4D8A00F49D88 /* UserInfoHeader.swift */,
 				3529FEFA24B4850900474CD8 /* LocationInputView.swift */,
 				3594270F24B623AA00EA8BE3 /* RideActionView.swift */,
@@ -362,6 +365,7 @@
 				3594271024B623AA00EA8BE3 /* RideActionView.swift in Sources */,
 				3529FEFF24B4B2DA00474CD8 /* User.swift in Sources */,
 				3522964F24B2F1EF00CCE4B8 /* AppDelegate.swift in Sources */,
+				3593375424BDE37F00E2636C /* TripCell.swift in Sources */,
 				359BDBDB24BB0B680071B831 /* MenuController.swift in Sources */,
 				3529FEF724B4649800474CD8 /* LocationInputActivationView.swift in Sources */,
 				3522965124B2F1EF00CCE4B8 /* SceneDelegate.swift in Sources */,

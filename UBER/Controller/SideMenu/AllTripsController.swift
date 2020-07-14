@@ -8,7 +8,7 @@
 
 import UIKit
 
-private let resuseIdentifier = "LocationCell"
+private let resuseIdentifier = "TripCell"
 
 class AllTripsController: UITableViewController {
     
@@ -47,8 +47,8 @@ class AllTripsController: UITableViewController {
     func configureTableView(){
         tableView.tableFooterView = UIView()
         
-        tableView.rowHeight = 90
-        tableView.register(LocationCell.self, forCellReuseIdentifier: resuseIdentifier)
+        tableView.rowHeight = 150
+        tableView.register(TripCell.self, forCellReuseIdentifier: resuseIdentifier)
         tableView.backgroundColor = .white
     }
     
@@ -81,7 +81,7 @@ extension AllTripsController {
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: resuseIdentifier, for: indexPath) as! LocationCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: resuseIdentifier, for: indexPath) as! TripCell
         return cell
     }
     
