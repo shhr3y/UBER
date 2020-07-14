@@ -44,7 +44,7 @@ struct Trip {
         }
         self.passengerFullname = dictionary["passengerName"] as? String ?? ""
         self.destinationTitleLabel = dictionary["destinationTitle"] as? String ?? ""
-        self.destinationAddressLabel = dictionary["destinationAddress"] as? String ?? ""
+        self.destinationAddressLabel = dictionary["destinationAddressx"] as? String ?? ""
         
         self.driverUID = dictionary["driverUID"] as? String ?? ""
         
