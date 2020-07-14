@@ -19,6 +19,7 @@ class PickupController: UIViewController {
     weak var delegate: PickupControllerDelegate?
     let trip: Trip
     private let mapView = MKMapView()
+    private var tripaccepted = false
     
     private lazy var circularProgressView: CircularProgressView = {
         let frame = CGRect(x: 0, y: 0, width: 360, height: 360)
@@ -79,24 +80,35 @@ class PickupController: UIViewController {
     }
     
     //    MARK: - Selectors
-    @objc func handleDimissal(){
-        dismiss(animated: true, completion: nil)
-    }
     
+    @objc func handleAcceptTrip(){
+        print("DEBUG: Ride Accepted")
+        tripaccepted = true
+        DriverService.shared.acceptTrip(trip: trip) { (error, reference) in
+            self.delegate?.didAcceptTrip(trip: self.trip)
+        }
+    }
     @objc func animateProgress() {
         circularProgressView.animatePulsatingLayer()
         circularProgressView.setProgressWithAnimation(duration: 15, value: 0) {
+            self.controlProgress()
+        }
+    }
+    
+    @objc func controlProgress(){
+        if tripaccepted {
+            self.dismiss(animated: true, completion: nil)
+        }
+        else {
             DriverService.shared.updateTripState(trip: self.trip, state: .isDenied) { (err, ref) in
-                print("DEBUG: Denied is Called")
                 self.dismiss(animated: true, completion: nil)
             }
         }
     }
     
-    @objc func handleAcceptTrip(){
-        print("DEBUG: Ride Accepted")
-        DriverService.shared.acceptTrip(trip: trip) { (error, reference) in
-            self.delegate?.didAcceptTrip(trip: self.trip)
+    @objc func handleDimissal(){
+        DriverService.shared.updateTripState(trip: self.trip, state: .isDenied) { (err, ref) in
+            self.dismiss(animated: true, completion: nil)
         }
     }
     

@@ -295,7 +295,6 @@ class HomeController: UIViewController {
             guard let state = trip.state else { return }
             
             switch state {
-                
             case .isRequested:
                 break
             case .isDenied:

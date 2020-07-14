@@ -44,10 +44,7 @@ class CircularProgressView: UIView{
         let layer = CAShapeLayer()
         
         let center = CGPoint(x: 0, y: 32)
-        let circularPath = UIBezierPath(arcCenter: center,
-                                        radius: self.frame.width / 2.5,
-                                        startAngle: -(.pi / 2), endAngle: 1.5 * .pi,
-                                        clockwise: true)
+        let circularPath = UIBezierPath(arcCenter: center, radius: self.frame.width / 2.5, startAngle: -(.pi / 2), endAngle: 1.5 * .pi, clockwise: true)
         layer.path = circularPath.cgPath
         layer.strokeColor = strokeColor.cgColor
         layer.lineWidth = 12
@@ -62,7 +59,7 @@ class CircularProgressView: UIView{
         let animation = CABasicAnimation(keyPath: "transform.scale")
         
         animation.toValue = 1.25
-        animation.duration = 1
+        animation.duration = 0.8
         animation.timingFunction = CAMediaTimingFunction(name: .easeOut)
         animation.autoreverses = true
         animation.repeatCount = Float.infinity
@@ -70,8 +67,7 @@ class CircularProgressView: UIView{
         pulsatingLayer.add(animation, forKey: "pulsing")
     }
     
-    func setProgressWithAnimation(duration: TimeInterval, value: Float,
-                                  completion: @escaping() -> Void) {
+    func setProgressWithAnimation(duration: TimeInterval, value: Float, completion: @escaping() -> Void) {
         CATransaction.begin()
         CATransaction.setCompletionBlock(completion)
         
