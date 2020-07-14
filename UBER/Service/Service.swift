@@ -76,13 +76,19 @@ struct PassengerService {
         }
     }
     
-    func uploadTrip(from pickupCoordinates: CLLocationCoordinate2D, to destinationCoordinates: CLLocationCoordinate2D, completion: @escaping(Error? , DatabaseReference) -> Void ){
+    func uploadTrip(from pickupCoordinates: CLLocationCoordinate2D, to destinationCoordinates: CLLocationCoordinate2D,passengerName: String, destinationTitle: String, destinationAddress: String, completion: @escaping(Error? , DatabaseReference) -> Void ){
         guard let uid = Auth.auth().currentUser?.uid else { return }
         
         let pickupArray = [pickupCoordinates.latitude, pickupCoordinates.longitude]
         let destinationArray = [destinationCoordinates.latitude, destinationCoordinates.longitude]
         
-        let values = ["pickupCoordinates": pickupArray, "destinationCoordinates": destinationArray, "state": TripState.isRequested.rawValue] as [String : Any]
+        let values = ["passengerName": passengerName,
+                      "pickupCoordinates": pickupArray,
+                      "destinationTitle": destinationTitle,
+                      "destinationAddress": destinationAddress,
+                      "destinationCoordinates": destinationArray,
+                      "state": TripState.isRequested.rawValue] as [String : Any]
+        
         print("DEBUG: UPLOAD TRIP CALLED")
         DB_REF_TRIPS.child(uid).updateChildValues(values, withCompletionBlock: completion)
     }

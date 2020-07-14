@@ -72,7 +72,7 @@ class RideActionView: UIView {
         }
     }
     //    MARK: - Properties
-    private let titleLabel: UILabel = {
+    let titleLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 18)
         label.textColor = .black
@@ -80,7 +80,7 @@ class RideActionView: UIView {
         return label
     }()
     
-    private let addressLabel: UILabel = {
+    let addressLabel: UILabel = {
         let label = UILabel()
         label.textColor = .lightGray
         label.font = UIFont.systemFont(ofSize: 16)

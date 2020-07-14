@@ -615,10 +615,13 @@ extension HomeController: RideActionViewDelegate{
         
         guard let pickupCoordinates = locationManager?.location?.coordinate else { return }
         guard let destinationCoordinates = view.destination?.coordinate else { return }
+        guard let destinationTitleLabel = view.titleLabel.text else { return }
+        guard let destinationAddressLabel = view.addressLabel.text else { return }
+        guard let userFullname = user?.fullname else { return }
         
         shouldPresentLoadingView(true, message: "Finding you a ride...")
         
-        PassengerService.shared.uploadTrip(from: pickupCoordinates, to: destinationCoordinates) { (error, reference) in
+        PassengerService.shared.uploadTrip(from: pickupCoordinates, to: destinationCoordinates, passengerName: userFullname, destinationTitle: destinationTitleLabel, destinationAddress: destinationAddressLabel) { (error, reference) in
             if let error = error {
                 print("DEBUG: Failed to upload Trip to Database with Error: \(error.localizedDescription) ")
                 return

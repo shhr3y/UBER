@@ -48,10 +48,34 @@ class PickupController: UIViewController {
         return label
     }()
     
+    private lazy var passengerFullnameLabel: UILabel = {
+        let label = UILabel()
+        label.text = trip.passengerFullname
+        label.font = UIFont.systemFont(ofSize: 20)
+        label.textColor = .white
+        return label
+    }()
+    
+    private lazy var titleLabel: UILabel = {
+        let label = UILabel()
+        label.text = trip.destinationTitleLabel
+        label.font = UIFont.systemFont(ofSize: 24)
+        label.textColor = .white
+        return label
+    }()
+    
+    private lazy var addressLabel: UILabel = {
+        let label = UILabel()
+        label.text = trip.destinationAddressLabel
+        label.font = UIFont.systemFont(ofSize: 16)
+        label.textColor = .darkGray
+        return label
+    }()
+    
     private let acceptTripButton: UIButton = {
         let button = UIButton()
         button.backgroundColor = .white
-        button.setTitle("ACCEPT TITLE", for: .normal)
+        button.setTitle("ACCEPT TRIP", for: .normal)
         button.setTitleColor(.black, for: .normal)
         button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 20)
         button.addTarget(self, action: #selector(handleAcceptTrip), for: .touchUpInside)
@@ -65,6 +89,7 @@ class PickupController: UIViewController {
     
     init(trip: Trip) {
         self.trip = trip
+        print("DEBUG: FROM PICKUPCONTROLLER: \(trip)")
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -100,16 +125,16 @@ class PickupController: UIViewController {
             self.dismiss(animated: true, completion: nil)
         }
         else {
-            DriverService.shared.updateTripState(trip: self.trip, state: .isDenied) { (err, ref) in
-                self.dismiss(animated: true, completion: nil)
-            }
+//            DriverService.shared.updateTripState(trip: self.trip, state: .isDenied) { (err, ref) in
+//                self.dismiss(animated: true, completion: nil)
+//            }
         }
     }
     
     @objc func handleDimissal(){
-        DriverService.shared.updateTripState(trip: self.trip, state: .isDenied) { (err, ref) in
-            self.dismiss(animated: true, completion: nil)
-        }
+//        DriverService.shared.updateTripState(trip: self.trip, state: .isDenied) { (err, ref) in
+//            self.dismiss(animated: true, completion: nil)
+//        }
     }
     
     //    MARK: - API
@@ -122,30 +147,32 @@ class PickupController: UIViewController {
         view.addSubview(cancelButton)
         cancelButton.anchor(top: view.safeAreaLayoutGuide.topAnchor, left: view.leftAnchor,paddingTop: 14, paddingLeft: 16, width: 40, height: 40)
         
+        view.addSubview(passengerFullnameLabel)
+        passengerFullnameLabel.anchor(top: view.safeAreaLayoutGuide.topAnchor)
+        passengerFullnameLabel.centerY(inView: cancelButton)
+        passengerFullnameLabel.centerX(inView: view)
         
-        //animation stuff
         view.addSubview(circularProgressView)
         circularProgressView.setDimensions(height: 360, width: 360)
-        circularProgressView.anchor(top: view.safeAreaLayoutGuide.topAnchor, paddingTop: 32)
+        circularProgressView.anchor(top: passengerFullnameLabel.topAnchor, paddingTop: 10)
         circularProgressView.centerX(inView: view)
         
+        view.addSubview(titleLabel)
+        titleLabel.anchor(top: circularProgressView.bottomAnchor, paddingTop: 20)
+        titleLabel.centerX(inView: view)
         
-//        view.addSubview(mapView)
-//        mapView.setDimensions(height: 270, width: 270)
-//        mapView.layer.cornerRadius = 270/2
-//        mapView.centerX(inView: view)
-//        mapView.centerY(inView: view, constant: -170)
-        
-        
-        view.addSubview(pickupLabel)
-        pickupLabel.centerX(inView: view)
-        pickupLabel.anchor(top: circularProgressView.bottomAnchor, paddingTop: 32)
+        view.addSubview(addressLabel)
+        addressLabel.anchor(top: titleLabel.bottomAnchor, paddingTop: 5)
+        addressLabel.centerX(inView: view)
         
         view.addSubview(acceptTripButton)
-        acceptTripButton.anchor(top: pickupLabel.bottomAnchor, paddingTop: 20)
+        acceptTripButton.anchor(bottom: view.safeAreaLayoutGuide.bottomAnchor, paddingBottom: 40)
         acceptTripButton.centerX(inView: view)
         acceptTripButton.setDimensions(height: 50, width: view.frame.width - 60)
         
+        view.addSubview(pickupLabel)
+        pickupLabel.centerX(inView: view)
+        pickupLabel.anchor(bottom: acceptTripButton.topAnchor, paddingBottom: 20)
     }
     
     func configureMapView(){
