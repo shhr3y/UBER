@@ -19,7 +19,7 @@ class AllTripsController: UITableViewController {
     
     init(user: User) {
         self.user = user
-        
+//        print("DEBUG: prininting user from AllTripsController: \(user.previousTrip)")
         super.init(nibName: nil, bundle: nil)
     }
     

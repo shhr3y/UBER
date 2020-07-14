@@ -200,9 +200,9 @@
 		359BDBD924BB0B170071B831 /* SideMenu */ = {
 			isa = PBXGroup;
 			children = (
+				353217CC24BC639400F49D88 /* Settings */,
 				359BDBDA24BB0B680071B831 /* MenuController.swift */,
 				35E3090024BDB97D00B86E33 /* AllTripsController.swift */,
-				353217CC24BC639400F49D88 /* Settings */,
 			);
 			path = SideMenu;
 			sourceTree = "<group>";
