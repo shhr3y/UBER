@@ -35,6 +35,7 @@
 		35CF7A4E24B3777D005AD00D /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 35CF7A4D24B3777D005AD00D /* GoogleService-Info.plist */; };
 		35CF7A5124B44B80005AD00D /* HomeController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35CF7A5024B44B80005AD00D /* HomeController.swift */; };
 		35CF835E24B72960005E24B9 /* PickupController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35CF835D24B72960005E24B9 /* PickupController.swift */; };
+		35E3090124BDB97D00B86E33 /* AllTripsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35E3090024BDB97D00B86E33 /* AllTripsController.swift */; };
 		6D849D8CB6BFDCA6B60148EC /* Pods_UBER.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2F85744D2ED76FF981D8DB6D /* Pods_UBER.framework */; };
 /* End PBXBuildFile section */
 
@@ -72,6 +73,7 @@
 		35CF7A4D24B3777D005AD00D /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		35CF7A5024B44B80005AD00D /* HomeController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeController.swift; sourceTree = "<group>"; };
 		35CF835D24B72960005E24B9 /* PickupController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PickupController.swift; sourceTree = "<group>"; };
+		35E3090024BDB97D00B86E33 /* AllTripsController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllTripsController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -151,7 +153,6 @@
 		3522966524B2F2CC00CCE4B8 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
-				353217CC24BC639400F49D88 /* Settings */,
 				359BDBD824BB0AD90071B831 /* Authentication */,
 				359BDBD924BB0B170071B831 /* SideMenu */,
 				35CF7A5024B44B80005AD00D /* HomeController.swift */,
@@ -198,7 +199,9 @@
 		359BDBD924BB0B170071B831 /* SideMenu */ = {
 			isa = PBXGroup;
 			children = (
+				353217CC24BC639400F49D88 /* Settings */,
 				359BDBDC24BB0B8E0071B831 /* ContainerController.swift */,
+				35E3090024BDB97D00B86E33 /* AllTripsController.swift */,
 				359BDBDA24BB0B680071B831 /* MenuController.swift */,
 			);
 			path = SideMenu;
@@ -341,6 +344,7 @@
 				3522965324B2F1EF00CCE4B8 /* ViewController.swift in Sources */,
 				35CF7A5124B44B80005AD00D /* HomeController.swift in Sources */,
 				353217CB24BC4D8A00F49D88 /* UserInfoHeader.swift in Sources */,
+				35E3090124BDB97D00B86E33 /* AllTripsController.swift in Sources */,
 				353217C924BC378F00F49D88 /* SettingsController.swift in Sources */,
 				3522966A24B2F47F00CCE4B8 /* LoginController.swift in Sources */,
 				3594271224B6FA0700EA8BE3 /* Trip.swift in Sources */,

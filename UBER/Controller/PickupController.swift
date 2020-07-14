@@ -36,7 +36,7 @@ class PickupController: UIViewController {
     private let cancelButton: UIButton = {
         let button = UIButton()
         button.setImage(#imageLiteral(resourceName: "baseline_clear_white_36pt_2x").withRenderingMode(.alwaysOriginal), for: .normal)
-        button.addTarget(self, action: #selector(handleDimissal), for: .touchUpInside)
+        button.addTarget(self, action: #selector(handleDismiss), for: .touchUpInside)
         return button
     }()
     
@@ -81,15 +81,11 @@ class PickupController: UIViewController {
         button.addTarget(self, action: #selector(handleAcceptTrip), for: .touchUpInside)
         return button
     }()
-    
- 
-    
-    
+   
     //    MARK: - Lifecycle
     
     init(trip: Trip) {
         self.trip = trip
-        print("DEBUG: FROM PICKUPCONTROLLER: \(trip)")
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -105,7 +101,14 @@ class PickupController: UIViewController {
     }
     
     //    MARK: - Selectors
-    
+    @objc func handleDismiss(){
+        print("DEBUG: handleDismissal is called")
+        DriverService.shared.updateTripState(trip: self.trip, state: .isDenied) { (err, ref) in
+            self.dismiss(animated: true, completion: nil)
+            print("DEBUG: I AM CALLED TOO")
+        }
+    }
+   
     @objc func handleAcceptTrip(){
         print("DEBUG: Ride Accepted")
         tripaccepted = true
@@ -130,14 +133,6 @@ class PickupController: UIViewController {
             }
         }
     }
-    
-    @objc func handleDimissal(){
-        DriverService.shared.updateTripState(trip: self.trip, state: .isDenied) { (err, ref) in
-            self.dismiss(animated: true, completion: nil)
-        }
-    }
-    
-    //    MARK: - API
     
     //    MARK: - Helper Functions
     
