@@ -153,6 +153,7 @@
 		3522966524B2F2CC00CCE4B8 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				359BDBDC24BB0B8E0071B831 /* ContainerController.swift */,
 				359BDBD824BB0AD90071B831 /* Authentication */,
 				359BDBD924BB0B170071B831 /* SideMenu */,
 				35CF7A5024B44B80005AD00D /* HomeController.swift */,
@@ -199,10 +200,9 @@
 		359BDBD924BB0B170071B831 /* SideMenu */ = {
 			isa = PBXGroup;
 			children = (
-				353217CC24BC639400F49D88 /* Settings */,
-				359BDBDC24BB0B8E0071B831 /* ContainerController.swift */,
-				35E3090024BDB97D00B86E33 /* AllTripsController.swift */,
 				359BDBDA24BB0B680071B831 /* MenuController.swift */,
+				35E3090024BDB97D00B86E33 /* AllTripsController.swift */,
+				353217CC24BC639400F49D88 /* Settings */,
 			);
 			path = SideMenu;
 			sourceTree = "<group>";

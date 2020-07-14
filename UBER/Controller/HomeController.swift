@@ -299,8 +299,7 @@ class HomeController: UIViewController {
                 break
             case .isDenied:
                 self.shouldPresentLoadingView(false)
-                print("DEBUG: IS DENIED CASE CALLED")
-                PassengerService.shared.deleteTrip { (err, ref) in
+                PassengerService.shared.deleteTrip(shouldSave: false) { (err, ref) in
                     self.presentAlertController(withTitle: "Oops!", withMessage: "Sorry, It looks like we couldnt find you a driver. Please try again..")
                     self.centerMapOnUserLocation()
                     self.configureActionButton(config: .showMenu)
@@ -324,7 +323,7 @@ class HomeController: UIViewController {
             case .arrivedAtDestination:
                 self.rideActionView.config = .endTrip
             case .isCompleted:
-                PassengerService.shared.deleteTrip { (error, reference) in
+                PassengerService.shared.deleteTrip(shouldSave: true) { (error, reference) in
                     self.animateRideActionView(shouldShow: false)
                     self.centerMapOnUserLocation()
                     self.configureActionButton(config: .showMenu)
@@ -595,7 +594,7 @@ extension HomeController: UITableViewDelegate, UITableViewDataSource{
 extension HomeController: RideActionViewDelegate{
     func cancelTrip() {
         print("DEBUG: cancelTrip called")
-        PassengerService.shared.deleteTrip { (error, reference) in
+        PassengerService.shared.deleteTrip(shouldSave: false) { (error, reference) in
             if let error = error {
                 print("DEBUG: Error Cancelling Ride: \(error.localizedDescription)")
                 return

@@ -113,10 +113,27 @@ struct PassengerService {
         print("DEBUG: UPDATE DRIVER LOCATION CALLED")
     }
     
-    func deleteTrip(completion: @escaping(Error?, DatabaseReference) -> Void){
+    func deleteTrip(shouldSave: Bool, completion: @escaping(Error?, DatabaseReference) -> Void){
         guard let uid = Auth.auth().currentUser?.uid else { return }
-        DB_REF_TRIPS.child(uid).removeValue(completionBlock: completion)
-        print("DEBUG: DELETE TRIP CALLED")
+        if shouldSave {
+            saveToMyTrips(toUID: uid, completion: completion)
+        }else{
+            DB_REF_TRIPS.child(uid).removeValue(completionBlock: completion)
+            print("DEBUG: DELETE TRIP CALLED")
+        }
+    }
+    
+    func saveToMyTrips(toUID uid: String, completion: @escaping(Error?, DatabaseReference) -> Void){
+        DB_REF_TRIPS.child(uid).observeSingleEvent(of: .value) { (snapshot) in
+            guard let value = snapshot.value as? [String: Any] else { return }
+            
+            DB_REF_USERS.child(uid).child("previousTrip").updateChildValues(value) { (error, reference) in
+                self.deleteTrip(shouldSave: false) { (error, reference) in
+                    print("DEBUG: DELETE TRIP CALLED AFTER SAVING DATA")
+                    completion(error,reference)
+                }
+            }
+        }
     }
     
     func saveLocation(locationString: String, type: LocationType, completion: @escaping(Error?, DatabaseReference)-> Void){
