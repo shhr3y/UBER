@@ -41,9 +41,31 @@ struct DriverService {
     
     func acceptTrip(trip: Trip, completion: @escaping(Error? ,DatabaseReference) -> Void){
         guard let uid = Auth.auth().currentUser?.uid else { return }
-        let values = ["driverUID": uid, "state": TripState.isAccepted.rawValue] as [String : Any]
-        print("DEBUG: ACCEPTTRIP CALLED")
-        DB_REF_TRIPS.child(trip.passengerUID).updateChildValues(values, withCompletionBlock: completion)
+        
+        DB_REF_USERS.child(uid).observeSingleEvent(of: .value) { (snapshot) in
+            guard let snap = snapshot.value as? [String: Any] else { return }
+            guard let driverName = snap["fullname"] as? String else { return }
+            let values = ["driverUID": uid, "state": TripState.isAccepted.rawValue, "driverName": driverName ] as [String : Any]
+            
+            DB_REF_TRIPS.child(trip.passengerUID).updateChildValues(values, withCompletionBlock: completion)
+            guard let passengerUID = trip.passengerUID else { return }
+            self.saveToMyTrips(toUID: passengerUID)
+        }
+    }
+    
+    func saveToMyTrips(toUID uid: String){
+        DB_REF_USERS.child(uid).observeSingleEvent(of: .value) { (snapshot) in
+            guard let value = snapshot.value as? [String: Any] else { return }
+            guard let numberOfTrips = value["numberOfTrips"] as? Int else { return }
+            
+            DB_REF_USERS.child(uid).child("numberOfTrips").setValue(numberOfTrips + 1) { (error, ref) in
+                DB_REF_TRIPS.child(uid).observeSingleEvent(of: .value) { (snapshot) in
+//                    FIXME:- UNCOMMENT THIS WHEN NEED TO SAVE USERS RIDES IN DATABASE AS PER NUMBER OF RIDES
+//                    guard let value = snapshot.value as? [String: Any] else { return }
+//                    DB_REF_USERS.child(uid).child("previousTrip").child(String(numberOfTrips + 1)).setValue(value)
+                }
+            }
+        }
     }
     
     func updateTripState(trip: Trip, state: TripState, completion: @escaping(Error?, DatabaseReference) -> Void){
@@ -113,28 +135,12 @@ struct PassengerService {
         print("DEBUG: UPDATE DRIVER LOCATION CALLED")
     }
     
-    func deleteTrip(shouldSave: Bool, completion: @escaping(Error?, DatabaseReference) -> Void){
+    func deleteTrip(completion: @escaping(Error?, DatabaseReference) -> Void){
         guard let uid = Auth.auth().currentUser?.uid else { return }
-        if shouldSave {
-            saveToMyTrips(toUID: uid, completion: completion)
-        }else{
-            DB_REF_TRIPS.child(uid).removeValue(completionBlock: completion)
-            print("DEBUG: DELETE TRIP CALLED")
-        }
+        DB_REF_TRIPS.child(uid).removeValue(completionBlock: completion)
+        print("DEBUG: DELETE TRIP CALLED")
     }
     
-    func saveToMyTrips(toUID uid: String, completion: @escaping(Error?, DatabaseReference) -> Void){
-        DB_REF_TRIPS.child(uid).observeSingleEvent(of: .value) { (snapshot) in
-            guard let value = snapshot.value as? [String: Any] else { return }
-            
-            DB_REF_USERS.child(uid).child("previousTrip").updateChildValues(value) { (error, reference) in
-                self.deleteTrip(shouldSave: false) { (error, reference) in
-                    print("DEBUG: DELETE TRIP CALLED AFTER SAVING DATA")
-                    completion(error,reference)
-                }
-            }
-        }
-    }
     
     func saveLocation(locationString: String, type: LocationType, completion: @escaping(Error?, DatabaseReference)-> Void){
         

@@ -125,7 +125,7 @@ class SignupController: UIViewController {
                             return
                         }else{
                             guard let uid = result?.user.uid else { return }
-                            let userdata = ["email": email, "fullname": fullname, "accountTypeIndex": accountTypeSelectedIndex] as [String : Any]
+                            let userdata = ["email": email, "fullname": fullname, "accountTypeIndex": accountTypeSelectedIndex, "numberOfTrips": 0] as [String : Any]
                             
                             if accountTypeSelectedIndex == 1 {
                                 let geofire = GeoFire(firebaseRef: DB_REF_DRIVER_LOCATIONS)

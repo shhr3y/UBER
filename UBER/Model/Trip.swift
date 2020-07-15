@@ -31,7 +31,6 @@ struct Trip {
     init(passengerUID: String, dictionary: [String: Any]) {
         self.passengerUID = passengerUID
         
-        
         if let pickupCoordinates = dictionary["pickupCoordinates"] as? NSArray {
             guard let lat = pickupCoordinates[0] as? CLLocationDegrees else { return }
             guard let long = pickupCoordinates[1] as? CLLocationDegrees else { return }
