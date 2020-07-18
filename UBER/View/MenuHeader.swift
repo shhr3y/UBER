@@ -11,6 +11,7 @@ import UIKit
 class MenuHeader: UIView {
     //    MARK: - Properties
     private let user: User
+    private var isEnabledPickup: Bool = true
     
     private lazy var profileImageView: UIView = {
         let imageview = UIView()
@@ -47,6 +48,21 @@ class MenuHeader: UIView {
         return label
     }()
     
+    let pickupModeLabel: UILabel = {
+        let label = UILabel()
+        label.textColor = UIColor(white: 1.0, alpha: 0.9)
+        label.font = UIFont.systemFont(ofSize: 12)
+        return label
+    }()
+    
+    lazy var pickupModeSwitch: UISwitch = {
+        let s = UISwitch()
+        s.isOn = true
+        s.tintColor = .white
+        s.onTintColor = .mainBlueTint
+        s.addTarget(self, action: #selector(handlePickupModeChanged), for: .valueChanged)
+        return s
+    }()
     
     
     //    MARK: - Lifecycle
@@ -69,6 +85,9 @@ class MenuHeader: UIView {
         
         addSubview(stack)
         stack.centerY(inView: profileImageView, leftAnchor: profileImageView.rightAnchor, leftPadding: 12)
+        
+        configureSwitch()
+
     }
     
     required init?(coder: NSCoder) {
@@ -78,6 +97,26 @@ class MenuHeader: UIView {
     
     //    MARK: - Selectors
     
+    @objc func handlePickupModeChanged() {
+        isEnabledPickup.toggle()
+        changeStateOfPickupSwitch(to: isEnabledPickup)
+    }
     
     //    MARK: - Helper Functions
+    
+    func configureSwitch() {
+        if user.accountType == .driver {
+            addSubview(pickupModeLabel)
+            pickupModeLabel.anchor(top: profileImageView.bottomAnchor, left: leftAnchor, paddingTop: 12, paddingLeft: 16)
+            
+            addSubview(pickupModeSwitch)
+            pickupModeSwitch.anchor(top: pickupModeLabel.bottomAnchor, left: leftAnchor, paddingTop: 4, paddingLeft: 16)
+            changeStateOfPickupSwitch(to: isEnabledPickup)
+        }
+    }
+    
+    func changeStateOfPickupSwitch(to state:Bool){
+        pickupModeSwitch.isOn = state
+        pickupModeLabel.text = state ? "PICKUP MODE ENABLED" : "PICKUP MODE DISABLED"
+    }
 }

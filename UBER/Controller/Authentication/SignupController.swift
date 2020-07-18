@@ -126,6 +126,7 @@ class SignupController: UIViewController {
                         }else{
                             guard let uid = result?.user.uid else { return }
                             let userdata = ["email": email, "fullname": fullname, "accountTypeIndex": accountTypeSelectedIndex, "numberOfTrips": 0] as [String : Any]
+                            self.uploadUserDataAndShowHomeController(uid: uid, userdata: userdata)
                             
                             if accountTypeSelectedIndex == 1 {
                                 let geofire = GeoFire(firebaseRef: DB_REF_DRIVER_LOCATIONS)
@@ -134,7 +135,6 @@ class SignupController: UIViewController {
                                     self.uploadUserDataAndShowHomeController(uid: uid, userdata: userdata)
                                 }
                             }
-                            self.uploadUserDataAndShowHomeController(uid: uid, userdata: userdata)
                         }
                     }
                 }

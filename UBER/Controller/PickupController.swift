@@ -177,4 +177,5 @@ class PickupController: UIViewController {
         mapView.addAnnotationAndSelect(forCoordinates: trip.pickupCoordinates)
     }
     
+    
 }
